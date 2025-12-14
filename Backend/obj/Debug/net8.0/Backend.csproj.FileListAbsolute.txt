@@ -1,0 +1,9 @@
+C:\Users\rozan\source\repos\TechNest\Backend\obj\Debug\net8.0\Backend.csproj.AssemblyReference.cache
+C:\Users\rozan\source\repos\TechNest\Backend\obj\Debug\net8.0\rpswa.dswa.cache.json
+C:\Users\rozan\source\repos\TechNest\Backend\obj\Debug\net8.0\Backend.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\rozan\source\repos\TechNest\Backend\obj\Debug\net8.0\Backend.AssemblyInfoInputs.cache
+C:\Users\rozan\source\repos\TechNest\Backend\obj\Debug\net8.0\Backend.AssemblyInfo.cs
+C:\Users\rozan\source\repos\TechNest\Backend\obj\Debug\net8.0\Backend.csproj.CoreCompileInputs.cache
+C:\Users\rozan\source\repos\TechNest\Backend\obj\Debug\net8.0\Backend.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\rozan\source\repos\TechNest\Backend\obj\Debug\net8.0\Backend.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\rozan\source\repos\TechNest\Backend\obj\Debug\net8.0\Backend.sourcelink.json

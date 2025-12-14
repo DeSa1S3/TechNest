@@ -24,7 +24,7 @@ services:
   #PostgreSQL
   postgres_db:
     image: postgres:17.0-bookworm
-    container_name: AuthleticAura-PostgreSQL
+    container_name: TechNest-PostgreSQL
     environment:
       POSTGRES_DB: "TechNestDB"
       POSTGRES_USER: "user"
