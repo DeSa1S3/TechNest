@@ -378,6 +378,10 @@ FodyWeavers.xsd
 
 .vs
 
+Backend/obj/
+
+Backend/[Oo]bj/
+
 .env
 
 .env_backup
