@@ -16,14 +16,14 @@ services:
     # volumes:
     #   - uploads:/app/Img
 
-  technest_frontend:
-    image: ${DOCKER_REGISTRY-}technest_frontend:0.1
-    container_name: TechNest-frontend
-    build:
-      context: ./Frontend
-      dockerfile: Dockerfile
-    ports:
-      - "4000:4000"
+    # technest_frontend:
+    #   image: ${DOCKER_REGISTRY-}technest_frontend:0.1
+    #   container_name: TechNest-frontend
+    #   build:
+    #     context: ./Frontend
+    #     dockerfile: Dockerfile
+    #   ports:
+    #     - "5173:5173"
 
   postgres_db:
     image: postgres:17.0-bookworm
