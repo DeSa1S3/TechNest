@@ -61,8 +61,7 @@ namespace TechNest
             });
 
             builder.Services.AddDbContext<DataContext>(options =>
-            options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+                options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             var jwtSettings = builder.Configuration.GetSection("JwtSettings");
 
@@ -89,7 +88,6 @@ namespace TechNest
                         Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]))
                 };
 
-                // Для Swagger - возможность передачи токена через query string
                 options.Events = new JwtBearerEvents
                 {
                     OnMessageReceived = context =>
@@ -111,20 +109,17 @@ namespace TechNest
                         return Task.CompletedTask;
                     }
                 };
-
             });
 
             builder.Services.AddAuthorization();
 
+            // JWT и Cache могут оставаться Singleton (они не зависят от Scoped служб)
             builder.Services.AddSingleton<IJwtTokensService, JwtTokensService>();
-
             builder.Services.AddSingleton<ICacheService, CacheSDK>();
 
-            builder.Services.AddSingleton<IServicemanager, ServiceManager>();
-
-            builder.Services.AddSingleton<IBackendService, BackendService>();
-
-            builder.Services.AddSingleton<IDatabaseService, DatabaseService>();
+            // ВСЕ службы, работающие с базой данных, должны быть SCOPED
+            builder.Services.AddScoped<IBackendService, BackendService>();     // БЫЛ AddSingleton
+            builder.Services.AddScoped<IDatabaseService, DatabaseService>();   // БЫЛ AddSingleton
 
             var app = builder.Build();
 
@@ -137,18 +132,13 @@ namespace TechNest
             }
 
             app.UseHttpsRedirection();
-
-
             app.UseAuthentication();
-
             app.UseAuthorization();
-
-
             app.MapControllers();
 
             await app.RunAsync();
-
         }
+
         private static async Task<bool> CheckIfTableExistsAsync(DbContext context, string tableName)
         {
             var connection = (NpgsqlConnection)context.Database.GetDbConnection();
@@ -172,11 +162,9 @@ namespace TechNest
             var context = scope.ServiceProvider.GetRequiredService<DataContext>();
 
             var tableName = "user_table";
-
-
             var tableExists = await CheckIfTableExistsAsync(context, tableName);
 
-            if (!tableExists )
+            if (!tableExists)
             {
                 await context.Database.MigrateAsync();
             }

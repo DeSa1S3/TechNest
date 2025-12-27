@@ -6,7 +6,7 @@ namespace Backend.Middleware_Components.DTO
 
         public string lastName { get; set; }
 
-        public string RegistrationDate { get; set; }
+        public string DateOfBirth { get; set; }
 
         public string Email { get; set; }
 

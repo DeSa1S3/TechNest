@@ -1,214 +1,406 @@
+using Backend.Interfaces;
 using Backend.Middleware_Components.DTO;
+using Backend.Middleware_Components.Interfaces;
+using Backend.Tables;
 using Microsoft.AspNetCore.Mvc;
-using System.Xml.Linq;
-using TechNest.Backend.Data;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 
-namespace Backend_AA.Controllers
+namespace Backend.Controllers
 {
-
-    [Route("api/ShopItems/")]
+    [Route("api/shop-items")]
     [ApiController]
     public class ShopItemsController : ControllerBase
     {
-        private readonly IConfiguration _configuration;
+        private readonly ILogger<ShopItemsController> _logger;
+        private readonly IBackendService _backendService;
+        private readonly IJwtTokensService _jwtTokensService;
+        private readonly IDatabaseService _databaseService;
 
-
-        public ShopItemsController(IConfiguration configuration)
+        public ShopItemsController(ILogger<ShopItemsController> logger,IBackendService backendService,IJwtTokensService jwtTokensService,IDatabaseService databaseService)
         {
-            _configuration = configuration;
+            _logger = logger;
+            _backendService = backendService;
+            _jwtTokensService = jwtTokensService;
+            _databaseService = databaseService;
         }
 
-        //[HttpPost("Men")]
-        //public async Task<IActionResult> AddItemM([FromBody] ShopItemsDTO shopItems_DTO)
-        //{
-        //    using (DataContext DB = new DataContext())
-        //    {
-        //        var dbCheck = DB.shop_items.Where(c => c.Name == shopItems_DTO.Name).FirstOrDefault();
+        [HttpGet]
+        public async Task<IActionResult> GetAllShopItems(
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 20,
+            [FromQuery] string? category = null)
+        {
+            try
+            {
+                var authHeader = Request.Headers["Authorization"].ToString();
+                if (string.IsNullOrEmpty(authHeader))
+                {
+                    return Unauthorized("Заголовок Authorization отсутствует");
+                }
 
-        //        if (dbCheck != null)
-        //            return BadRequest();
+                var isValid = await _jwtTokensService.IsAccessValid(authHeader);
+                if (!isValid)
+                {
+                    return Unauthorized("Неверный токен");
+                }
 
-        //        ShopItemsDTO shopItems = new ShopItemsDTO()
-        //        {
-        //            Name = shopItems_DTO.Name,
-        //            Color = shopItems_DTO.Color,
-        //            Price = shopItems_DTO.Price,
-        //            category = new string[] { "Men", shopItems_DTO.Category }
-        //        };
+                var items = await _databaseService.GetAllShopItems(page, pageSize, category);
+                return Ok(items);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Ошибка при получении всех товаров магазина");
+                return StatusCode(500, ex.Message);
+            }
+        }
 
-        //        DB.shop_items.Add(shopItems);
-        //        await DB.SaveChangesAsync();
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetShopItemById(int id)
+        {
+            try
+            {
+                var authHeader = Request.Headers["Authorization"].ToString();
+                if (string.IsNullOrEmpty(authHeader))
+                {
+                    return Unauthorized("Заголовок Authorization отсутствует");
+                }
 
-        //        return Ok("Успех");
+                var isValid = await _jwtTokensService.IsAccessValid(authHeader);
+                if (!isValid)
+                {
+                    return Unauthorized("Неверный токен");
+                }
 
-        //    }
-        //}
+                var item = await _databaseService.GetShopItemById(id);
+                if (item == null)
+                {
+                    return NotFound($"Товар магазина с id {id} не найден");
+                }
 
-        //[HttpPost("Woman")]
-        //public async Task<IActionResult> AddItemW([FromBody] ShopItemsDTO shopItems_DTO)
-        //{
-        //    using (DataContext DB = new DataContext())
-        //    {
-        //        var dbCheck = DB.shop_items.Where(c => c.Name == shopItems_DTO.Name).FirstOrDefault();
+                return Ok(item);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Ошибка при получении товара магазина с id {id}");
+                return StatusCode(500, ex.Message);
+            }
+        }
 
-        //        if (dbCheck != null)
-        //            return BadRequest();
-        //        ShopItems shopItems = new ShopItems()
-        //        {
-        //            Name = shopItems_DTO.Name,
-        //            Color = shopItems_DTO.Color,
-        //            Price = shopItems_DTO.Price,
-        //            category = new string[] { "Woman", shopItems_DTO.Category }
-        //        };
+        [HttpPost]
+        public async Task<IActionResult> CreateShopItem([FromBody] ShopItemsDTO dto)
+        {
+            try
+            {
+                var authHeader = Request.Headers["Authorization"].ToString();
+                if (string.IsNullOrEmpty(authHeader))
+                {
+                    return Unauthorized("Заголовок Authorization отсутствует");
+                }
 
-        //        DB.shop_items.Add(shopItems);
-        //        await DB.SaveChangesAsync();
+                var isManager = await _jwtTokensService.RoleValid(authHeader, "MANAGER");
+                if (!isManager)
+                {
+                    return Forbid("Только менеджеры могут создавать товары магазина");
+                }
 
-        //        return Ok("Успех");
+                var createdItem = await _databaseService.CreateShopItem(dto);
+                return CreatedAtAction(nameof(GetShopItemById), new { id = createdItem.Id }, createdItem);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Ошибка при создании товара магазина");
+                return BadRequest(ex.Message);
+            }
+        }
 
-        //    }
-        //}
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateShopItem(int id, [FromBody] ShopItemsDTO dto)
+        {
+            try
+            {
+                var authHeader = Request.Headers["Authorization"].ToString();
+                if (string.IsNullOrEmpty(authHeader))
+                {
+                    return Unauthorized("Заголовок Authorization отсутствует");
+                }
 
+                var isManager = await _jwtTokensService.RoleValid(authHeader, "MANAGER");
+                if (!isManager)
+                {
+                    return Forbid("Только менеджеры могут обновлять товары магазина");
+                }
 
+                var updatedItem = await _databaseService.UpdateShopItem(id, dto);
+                if (updatedItem == null)
+                {
+                    return NotFound($"Товар магазина с id {id} не найден");
+                }
 
-        //[HttpDelete("DeleteShopItems/{id}")]
-        //public async Task<IActionResult> DeleteShopItems(int id)
-        //{
-        //    using (DataContext DB = new DataContext())
-        //    {
-        //        var deleteShopItems = await DB.shop_items.FindAsync(id);
-        //        if (deleteShopItems == null)
-        //        {
-        //            return NotFound("Товар не найден.");
-        //        }
+                return Ok(updatedItem);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Ошибка при обновлении товара магазина с id {id}");
+                return BadRequest(ex.Message);
+            }
+        }
 
-        //        DB.shop_items.Remove(deleteShopItems);
-        //        await DB.SaveChangesAsync();
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteShopItem(int id)
+        {
+            try
+            {
+                var authHeader = Request.Headers["Authorization"].ToString();
+                if (string.IsNullOrEmpty(authHeader))
+                {
+                    return Unauthorized("Заголовок Authorization отсутствует");
+                }
 
+                var isManager = await _jwtTokensService.RoleValid(authHeader, "MANAGER");
+                if (!isManager)
+                {
+                    return Forbid("Только менеджеры могут удалять товары магазина");
+                }
 
+                var success = await _databaseService.DeleteShopItem(id);
+                if (!success)
+                {
+                    return NotFound($"Товар магазина с id {id} не найден");
+                }
 
-        //        return Ok("Товар успешно удалён.");
-        //    }
-        //}
+                return Ok(new { message = $"Товар магазина с id {id} успешно удален" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Ошибка при удалении товара магазина с id {id}");
+                return BadRequest(ex.Message);
+            }
+        }
 
-        //[HttpPost("ImgUpload/{itemName}")]
-        //public async Task<IActionResult> ImgUpload(string itemName, IFormFile img)
-        //{
-        //    try
-        //    {
-        //        if (img == null)
-        //        {
-        //            return BadRequest("Нету изображения");
-        //        }
-        //        var filePath = Path.GetFullPath("Img/" + img.FileName);
+        [HttpPost("{id}/upload-image")]
+        public async Task<IActionResult> UploadImage(int id, IFormFile file)
+        {
+            try
+            {
+                var authHeader = Request.Headers["Authorization"].ToString();
+                if (string.IsNullOrEmpty(authHeader))
+                {
+                    return Unauthorized("Заголовок Authorization отсутствует");
+                }
 
-        //        if (!Directory.Exists(Path.GetFullPath("Img/")))
-        //            Directory.CreateDirectory(Path.GetFullPath("Img/"));
+                var isManager = await _jwtTokensService.RoleValid(authHeader, "MANAGER");
+                if (!isManager)
+                {
+                    return Forbid("Только менеджеры могут загружать изображения");
+                }
 
-        //        using (var stream = new FileStream(filePath, FileMode.Create))
-        //        {
-        //            await img.CopyToAsync(stream);
-        //        }
-        //        using (DataContext DB = new DataContext())
-        //        {
-        //            var item = DB.shop_items.Where(item => item.Name == itemName).FirstOrDefault();
-        //            if (item != null)
-        //            {
-        //                item.Img = filePath;
-        //                await DB.SaveChangesAsync();
-        //                return Ok("Изображение загружено");
-        //            }
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return BadRequest(e.Message);
-        //    }
-        //    return BadRequest();
-        //}
+                if (file == null || file.Length == 0)
+                {
+                    return BadRequest("Файл не загружен");
+                }
 
-        //[HttpGet]
-        //public async Task<IActionResult> GetItems()
-        //{
-        //    using (DataContext DB = new DataContext())
-        //    {
-        //        List<ShopItems_Get> shopItems_Get = new List<ShopItems_Get>();
-        //        var Items = DB.shop_items;
-        //        foreach (var item in Items)
-        //        {
-        //            ShopItems_Get shopItems = new ShopItems_Get()
-        //            {
-        //                Id = item.Id,
-        //                Name = item.Name,
-        //                Color = item.Color,
-        //                Price = item.Price,
-        //                Img = item.Img
-        //            };
-        //            shopItems_Get.Add(shopItems);
-        //        }
-        //        return Ok(shopItems_Get);
-        //    }
-        //}
+                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
+                var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
+                if (string.IsNullOrEmpty(extension) || !allowedExtensions.Contains(extension))
+                {
+                    return BadRequest("Неподдерживаемый тип файла. Разрешены: jpg, jpeg, png, gif, webp");
+                }
 
-        //[HttpGet("Men/{category}")]
-        //public async Task<IActionResult> GetItemsM(string category)
-        //{
-        //    using (DataContext DB = new DataContext())
-        //    {
-        //        List<ShopItems_Get> shopItems_Get = new List<ShopItems_Get>();
-        //        var Items = DB.shop_items.Where(c => c.category[0] == "Men" && c.category[1] == category);
-        //        foreach (var item in Items)
-        //        {
-        //            ShopItems_Get shopItems = new ShopItems_Get()
-        //            {
-        //                Id = item.Id,
-        //                Name = item.Name,
-        //                Color = item.Color,
-        //                Price = item.Price,
-        //                Img = item.Img
-        //            };
-        //            shopItems_Get.Add(shopItems);
-        //        }
-        //        return Ok(shopItems_Get);
-        //    }
-        //}
+                if (file.Length > 5 * 1024 * 1024)
+                {
+                    return BadRequest("Размер файла слишком большой. Максимальный размер: 5MB");
+                }
 
-        //[HttpGet("Woman/{category}")]
-        //public async Task<IActionResult> GetItemsW(string category)
-        //{
-        //    using (DataContext DB = new DataContext())
-        //    {
-        //        List<ShopItems_Get> shopItems_Get = new List<ShopItems_Get>();
-        //        var Items = DB.shop_items.Where(c => c.category[0] == "Woman" && c.category[1] == category);
-        //        foreach (var item in Items)
-        //        {
-        //            ShopItems_Get shopItems = new ShopItems_Get()
-        //            {
-        //                Id = item.Id,
-        //                Name = item.Name,
-        //                Color = item.Color,
-        //                Price = item.Price,
-        //                Img = item.Img
-        //            };
-        //            shopItems_Get.Add(shopItems);
-        //        }
-        //        return Ok(shopItems_Get);
-        //    }
-        //}
+                var fileName = $"shopitem_{id}_{DateTime.UtcNow.Ticks}{extension}";
+                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "shop-items");
 
-        //[HttpGet("GetImage")]
-        //public async Task<IActionResult> GetImage([FromHeader] string filePath)
-        //{
-        //    try
-        //    {
-        //        var file = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
 
-        //        return File(file, "image/jpeg");
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return BadRequest(e.Message);
-        //    }
-        //}
+                var filePath = Path.Combine(uploadsFolder, fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                var imageUrl = $"/uploads/shop-items/{fileName}";
+                var success = await _databaseService.UpdateShopItemImage(id, imageUrl);
+
+                if (!success)
+                {
+                    return NotFound($"Товар магазина с id {id} не найден");
+                }
+
+                return Ok(new
+                {
+                    message = "Изображение успешно загружено",
+                    imageUrl = imageUrl
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Ошибка при загрузке изображения для товара магазина с id {id}");
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet("{id}/image")]
+        public async Task<IActionResult> GetImage(int id)
+        {
+            try
+            {
+                var authHeader = Request.Headers["Authorization"].ToString();
+                if (string.IsNullOrEmpty(authHeader))
+                {
+                    return Unauthorized("Заголовок Authorization отсутствует");
+                }
+
+                var isValid = await _jwtTokensService.IsAccessValid(authHeader);
+                if (!isValid)
+                {
+                    return Unauthorized("Неверный токен");
+                }
+
+                var item = await _databaseService.GetShopItemById(id);
+                if (item == null || string.IsNullOrEmpty(item.Img))
+                {
+                    return NotFound("Изображение не найдено");
+                }
+
+                var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", item.Img.TrimStart('/'));
+
+                if (!System.IO.File.Exists(imagePath))
+                {
+                    return NotFound("Файл изображения не найден");
+                }
+
+                var imageBytes = await System.IO.File.ReadAllBytesAsync(imagePath);
+                var contentType = GetContentType(imagePath);
+
+                return File(imageBytes, contentType);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Ошибка при получении изображения для товара магазина с id {id}");
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchShopItems(
+            [FromQuery] string query,
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 20)
+        {
+            try
+            {
+                var authHeader = Request.Headers["Authorization"].ToString();
+                if (string.IsNullOrEmpty(authHeader))
+                {
+                    return Unauthorized("Заголовок Authorization отсутствует");
+                }
+
+                var isValid = await _jwtTokensService.IsAccessValid(authHeader);
+                if (!isValid)
+                {
+                    return Unauthorized("Неверный токен");
+                }
+
+                if (string.IsNullOrWhiteSpace(query))
+                {
+                    return BadRequest("Поисковый запрос обязателен");
+                }
+
+                var items = await _databaseService.SearchShopItems(query, page, pageSize);
+                return Ok(items);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Ошибка при поиске товаров магазина по запросу: {query}");
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet("category/{category}")]
+        public async Task<IActionResult> GetShopItemsByCategory(
+            string category,
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 20)
+        {
+            try
+            {
+                var authHeader = Request.Headers["Authorization"].ToString();
+                if (string.IsNullOrEmpty(authHeader))
+                {
+                    return Unauthorized("Заголовок Authorization отсутствует");
+                }
+
+                var isValid = await _jwtTokensService.IsAccessValid(authHeader);
+                if (!isValid)
+                {
+                    return Unauthorized("Неверный токен");
+                }
+
+                var items = await _databaseService.GetShopItemsByCategory(category, page, pageSize);
+                return Ok(items);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Ошибка при получении товаров магазина по категории: {category}");
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpDelete("{id}/image")]
+        public async Task<IActionResult> DeleteImage(int id)
+        {
+            try
+            {
+                var authHeader = Request.Headers["Authorization"].ToString();
+                if (string.IsNullOrEmpty(authHeader))
+                {
+                    return Unauthorized("Заголовок Authorization отсутствует");
+                }
+
+                var isManager = await _jwtTokensService.RoleValid(authHeader, "MANAGER");
+                if (!isManager)
+                {
+                    return Forbid("Только менеджеры могут удалять изображения");
+                }
+
+                var success = await _databaseService.DeleteShopItemImage(id);
+                if (!success)
+                {
+                    return NotFound($"Товар магазина с id {id} не найден или не имеет изображения");
+                }
+
+                return Ok(new { message = "Изображение успешно удалено" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Ошибка при удалении изображения для товара магазина с id {id}");
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        private string GetContentType(string path)
+        {
+            var extension = Path.GetExtension(path).ToLowerInvariant();
+            return extension switch
+            {
+                ".jpg" or ".jpeg" => "image/jpeg",
+                ".png" => "image/png",
+                ".gif" => "image/gif",
+                ".webp" => "image/webp",
+                _ => "application/octet-stream",
+            };
+        }
     }
 }

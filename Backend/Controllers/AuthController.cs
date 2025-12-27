@@ -40,7 +40,7 @@ namespace Backend.Controllers
                 {
                     firstName = register_DTO.firstName,
                     lastName = register_DTO.lastName,
-                    RegistrationDate = register_DTO.RegistrationDate,
+                    RegistrationDate = register_DTO.DateOfBirth,
                     Email = register_DTO.Email,
                     Password = register_DTO.Password,
                     Roles = new string[] { "User" }

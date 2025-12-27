@@ -1,6 +1,7 @@
 using Backend.Interfaces;
 using Backend.Middleware_Components.DTO;
 using Backend.Middleware_Components.Interfaces;
+using Backend.Middleware_Components.JWT;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,14 +14,14 @@ namespace ServiceUI.Controllers
     [Authorize(AuthenticationSchemes = "Asymmetric")]
     public class UsersController : ControllerBase
     {
-        //private readonly IJwtService _jwt;
+        private readonly JwtTokensService _jwt;
         private readonly ILogger _logger;
         private readonly IBackendService _serviceBackend;
 
-        public UsersController(/*IJwtService jwt,*/ IBackendService serviceBackend)
+        public UsersController(JwtTokensService jwt, IBackendService serviceBackend)
         {
             _logger = LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger("user-controller-logger");
-            //_jwt = jwt;
+            _jwt = jwt;
             _serviceBackend = serviceBackend;
         }
 
@@ -30,7 +31,7 @@ namespace ServiceUI.Controllers
         {
             try
             {
-                //await _serviceBackend.AddNewUser(dtoObj, email, Request.Headers["Authorization"]);
+                await _serviceBackend.AddNewUser(dtoObj, email, Request.Headers["Authorization"]);
                 return Ok("user_added");
             }
             catch (Exception ex)
@@ -45,7 +46,7 @@ namespace ServiceUI.Controllers
         {
             try
             {
-                //await _serviceBackend.ChangeUser(dtoObj, id, Request.Headers["Authorization"]);
+                await _serviceBackend.ChangeUser(dtoObj, id, Request.Headers["Authorization"]);
                 return Ok("user_changed");
             }
             catch (Exception ex)
@@ -60,7 +61,7 @@ namespace ServiceUI.Controllers
         {
             try
             {
-               // await _serviceBackend.DeleteUser(id, Request.Headers["Authorization"]);
+               await _serviceBackend.DeleteUser(id, Request.Headers["Authorization"]);
                 return Ok("user_deleted");
             }
             catch (Exception ex)
@@ -75,7 +76,7 @@ namespace ServiceUI.Controllers
         {
             try
             {
-                //var user = await _serviceBackend.GetUser(id, Request.Headers["Authorization"]);
+                var user = await _serviceBackend.GetUser(id, Request.Headers["Authorization"]);
                 return Ok("user");
             }
             catch (Exception ex)
