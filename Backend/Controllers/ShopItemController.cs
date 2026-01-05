@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Backend.Controllers
 {
-    [Route("api/shop-items")]
+    [Route("api/Shop-items")]
     [ApiController]
     public class ShopItemsController : ControllerBase
     {
@@ -25,14 +25,11 @@ namespace Backend.Controllers
             _logger = logger;
             _backendService = backendService;
             _jwtTokensService = jwtTokensService;
-            _databaseService = databaseService;
+            //_databaseService = databaseService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllShopItems(
-            [FromQuery] int page = 1,
-            [FromQuery] int pageSize = 20,
-            [FromQuery] string? category = null)
+        public async Task<IActionResult> GetAllShopItems([FromQuery] int page = 1, [FromQuery] int pageSize = 20, [FromQuery] string? category = null)
         {
             try
             {
@@ -89,7 +86,7 @@ namespace Backend.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-
+        //Только менеджер
         [HttpPost]
         public async Task<IActionResult> CreateShopItem([FromBody] ShopItemsDTO dto)
         {

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace Backend.Controllers
 {
     //Админ и редактор
-    [Route("api/catalog")]
+    [Route("api/Catalog")]
     [ApiController]
     public class CatalogController : ControllerBase
     {

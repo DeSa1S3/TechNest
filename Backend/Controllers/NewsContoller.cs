@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Backend.Controllers
 {
-    [Route("api/news")]
+    [Route("api/News")]
     [ApiController]
     public class NewsController : ControllerBase
     {
@@ -26,6 +26,7 @@ namespace Backend.Controllers
             _jwtTokensService = jwtTokensService;
             _databaseService = databaseService;
         }
+        
         [HttpGet("{id}")]
         [AllowAnonymous]
         public async Task<IActionResult> GetNewsById(int id)
@@ -46,7 +47,7 @@ namespace Backend.Controllers
                 return StatusCode(500, "Внутренняя ошибка сервера");
             }
         }
-
+        // Только менеджер
         [HttpPost]
         public async Task<IActionResult> CreateNews([FromBody] NewsDTO dto)
         {
@@ -140,7 +141,7 @@ namespace Backend.Controllers
             }
         }
 
-        [HttpPost("{id}/upload-image")]
+        [HttpPost("{id}/Upload-image")]
         public async Task<IActionResult> UploadImage(int id, IFormFile file)
         {
             try
@@ -210,7 +211,7 @@ namespace Backend.Controllers
             }
         }
 
-        [HttpGet("{id}/image")]
+        [HttpGet("{id}/Image")]
         [AllowAnonymous]
         public async Task<IActionResult> GetImage(int id)
         {
@@ -241,7 +242,7 @@ namespace Backend.Controllers
             }
         }
 
-        [HttpDelete("{id}/image")]
+        [HttpDelete("{id}/Image")]
         public async Task<IActionResult> DeleteImage(int id)
         {
             try

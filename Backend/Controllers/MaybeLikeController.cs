@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Backend.Controllers
 {
-    [Route("api/maybe-like")]
+    [Route("api/Maybe-like")]
     [ApiController]
     public class MaybeLikeController : ControllerBase
     {
@@ -27,25 +27,25 @@ namespace Backend.Controllers
             _databaseService = databaseService;
         }
 
-        [HttpGet("random")]
-        public async Task<IActionResult> GetRandomItems([FromQuery] int count = 8)
-        {
-            try
-            {
-                if (count <= 0 || count > 50)
-                {
-                    return BadRequest("Число должно быть в диапазоне от 1 до 50.");
-                }
+        //[HttpGet("Random")]
+        //public async Task<IActionResult> GetRandomItems([FromQuery] int count = 8)
+        //{
+        //    try
+        //    {
+        //        if (count <= 0 || count > 50)
+        //        {
+        //            return BadRequest("Число должно быть в диапазоне от 1 до 50.");
+        //        }
 
-                var items = await _databaseService.GetRandomMaybeLikeItems(count);
-                return Ok(items);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Ошибка, возможно, связана с получением случайных элементов.");
-                return StatusCode(500, "Внутренняя ошибка сервера");
-            }
-        }
+        //        var items = await _databaseService.GetRandomMaybeLikeItems(count);
+        //        return Ok(items);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, "Ошибка, возможно, связана с получением случайных элементов.");
+        //        return StatusCode(500, "Внутренняя ошибка сервера");
+        //    }
+        //}
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetItemById(int id)
@@ -67,11 +67,8 @@ namespace Backend.Controllers
             }
         }
 
-        [HttpGet("search")]
-        public async Task<IActionResult> SearchItems(
-            [FromQuery] string query,
-            [FromQuery] int page = 1,
-            [FromQuery] int pageSize = 20)
+        [HttpGet("Search")]
+        public async Task<IActionResult> SearchItems([FromQuery] string query, [FromQuery] int page = 1, [FromQuery] int pageSize = 20)
         {
             try
             {
@@ -201,7 +198,7 @@ namespace Backend.Controllers
             }
         }
 
-        [HttpPost("{id}/upload-image")]
+        [HttpPost("{id}/Upload-image")]
         public async Task<IActionResult> UploadImage(int id, IFormFile file)
         {
             try
@@ -271,7 +268,7 @@ namespace Backend.Controllers
             }
         }
 
-        [HttpGet("{id}/image")]
+        [HttpGet("{id}/Image")]
         public async Task<IActionResult> GetImage(int id)
         {
             try
@@ -301,7 +298,7 @@ namespace Backend.Controllers
             }
         }
 
-        [HttpDelete("{id}/image")]
+        [HttpDelete("{id}/Image")]
         public async Task<IActionResult> DeleteImage(int id)
         {
             try
@@ -333,7 +330,7 @@ namespace Backend.Controllers
             }
         }
 
-        [HttpGet("category/{category}")]
+        [HttpGet("Category/{category}")]
         public async Task<IActionResult> GetItemsByCategory(
             string category,
             [FromQuery] int page = 1,

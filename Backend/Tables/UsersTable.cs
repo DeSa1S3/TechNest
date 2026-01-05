@@ -19,6 +19,10 @@ namespace Backend.Tables
 
         public string[] Roles { get; set; }
 
+        public string Status { get; set; }
+
+        public string created_at { get; set; }
+
         public string? Img { get; set; }
     }
 }

@@ -90,26 +90,26 @@ namespace Backend.Controllers
             }
         }
 
-        [HttpPost("Add")]
-        public async Task<IActionResult> AddRule(AddRuleDTO dtoObj)
-        {
-            try
-            {
-                var authHeader = Request.Headers["Authorization"].ToString();
-                if (string.IsNullOrEmpty(authHeader))
-                {
-                    return Unauthorized("Заголовок Authorization отсутствует");
-                }
+        //[HttpPost("Add")]
+        //public async Task<IActionResult> AddRule(AddRuleDTO dtoObj)
+        //{
+        //    try
+        //    {
+        //        var authHeader = Request.Headers["Authorization"].ToString();
+        //        if (string.IsNullOrEmpty(authHeader))
+        //        {
+        //            return Unauthorized("Заголовок Authorization отсутствует");
+        //        }
 
-                await _backendService.CreateRuleTimed(dtoObj, authHeader);
-                return Ok("правило_добавлено");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Ошибка при добавлении правила");
-                return BadRequest(ex.Message);
-            }
-        }
+        //        await _backendService.CreateRuleTimed(dtoObj, authHeader);
+        //        return Ok("правило_добавлено");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, "Ошибка при добавлении правила");
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
 
         // Изменение правила (заглушка)
         [HttpPatch("Change")]

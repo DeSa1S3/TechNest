@@ -19,6 +19,8 @@ namespace Backend.Controllers
 {
     [Route("api/Auth/")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Asymmetric")]
+ 
     public class AuthController : ControllerBase
     {
         private readonly IConfiguration _configuration;
@@ -93,7 +95,7 @@ namespace Backend.Controllers
             if (token != null)
             {
                 if (token.Contains("Bearer"))
-                    return BadRequest("accessToken in this method must not contain word [Bearer]");
+                    return BadRequest("В методе accessToken не должен содержать слово [Bearer].");
             }
 
             var validation = await _jwt.IsAccessValid(token);
@@ -112,7 +114,6 @@ namespace Backend.Controllers
         }
 
 
-        [Authorize(AuthenticationSchemes = "Asymmetric")]
         [HttpPut]
         [Route("SignOut")]
         public async Task<IActionResult> UserSignOut()
@@ -131,7 +132,6 @@ namespace Backend.Controllers
             }
         }
 
-        [Authorize(AuthenticationSchemes = "Asymmetric")]
         [HttpPost]
         [Route("Refresh")]
         public async Task<IActionResult> UserRefreshTokens(AuthRefreshToken dtoObj)

@@ -15,6 +15,9 @@ namespace Backend.Middleware_Components.DTO
         public string Password { get; set; }
 
         public string[] Roles { get; set; }
+        public string Status { get; set; }
+
+        public DateTime created_at { get; set; }
 
         public string? Img { get; set; }
     }

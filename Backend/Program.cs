@@ -113,13 +113,11 @@ namespace TechNest
 
             builder.Services.AddAuthorization();
 
-            // JWT и Cache могут оставаться Singleton (они не зависят от Scoped служб)
             builder.Services.AddSingleton<IJwtTokensService, JwtTokensService>();
             builder.Services.AddSingleton<ICacheService, CacheSDK>();
 
-            // ВСЕ службы, работающие с базой данных, должны быть SCOPED
-            builder.Services.AddScoped<IBackendService, BackendService>();     // БЫЛ AddSingleton
-            builder.Services.AddScoped<IDatabaseService, DatabaseService>();   // БЫЛ AddSingleton
+            builder.Services.AddScoped<IBackendService, BackendService>();     
+            builder.Services.AddScoped<IDatabaseService, DatabaseService>();   
 
             var app = builder.Build();
 
