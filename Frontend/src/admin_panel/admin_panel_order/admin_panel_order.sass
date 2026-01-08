@@ -1,0 +1,308 @@
+.orders-container
+.orders-header
+    display: flex
+    justify-content: space-between
+    align-items: center
+    margin-bottom: 24px
+
+.orders-filters
+    display: flex
+    gap: 16px
+    margin-bottom: 24px
+    flex-wrap: wrap
+    .filter-group
+        flex: 1
+        min-width: 200px
+    label
+        display: block
+        font-size: 14px
+        font-weight: 600
+        color: #1d1d1f
+        margin-bottom: 8px
+    select, input
+        width: 100%
+        padding: 10px 12px
+        border: 1px solid #d2d2d7
+        border-radius: 8px
+        font-size: 14px
+        background: white
+
+.orders-table-container
+    background: white
+    border-radius: 16px
+    overflow: hidden
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05)
+    border: 1px solid #f0f0f0
+
+.orders-table
+    width: 100%
+    border-collapse: collapse
+
+    th
+        background: #f8f9fa
+        padding: 16px 20px
+        text-align: left
+        font-size: 13px
+        font-weight: 600
+        color: #86868b
+        text-transform: uppercase
+        letter-spacing: 0.5px
+        border-bottom: 1px solid #e0e0e0
+        white-space: nowrap
+
+    td
+        padding: 16px 20px
+        border-bottom: 1px solid #f5f5f7
+        font-size: 14px
+        color: #1d1d1f
+        vertical-align: middle
+
+    tr
+        transition: background 0.2s
+    &:hover
+        background: #f8f9fa
+
+    .order-id
+        font-weight: 600
+        color: #0071e3
+        font-family: 'Monaco', 'Menlo', monospace
+
+    .order-customer
+    .customer-name
+        font-weight: 600
+        color: #1d1d1f
+    .customer-email
+        font-size: 13px
+        color: #86868b
+
+    .order-total
+        font-weight: 700
+        color: #1d1d1f
+        font-size: 16px
+
+    .order-status
+        display: inline-flex
+        align-items: center
+        gap: 6px
+        padding: 6px 12px
+        border-radius: 12px
+        font-size: 12px
+        font-weight: 600
+        text-transform: uppercase
+        letter-spacing: 0.3px
+        min-width: 100px
+        justify-content: center
+    &.status-pending
+        background: linear-gradient(135deg, #ff950033, #ff950022)
+        color: #ff9500
+        border: 1px solid #ff950044
+    &.status-processing
+        background: linear-gradient(135deg, #0071e333, #0071e322)
+        color: #0071e3
+        border: 1px solid #0071e344
+    &.status-completed
+        background: linear-gradient(135deg, #34c75933, #34c75922)
+        color: #34c759
+        border: 1px solid #34c75944
+    &.status-cancelled
+        background: linear-gradient(135deg, #ff3b3033, #ff3b3022)
+        color: #ff3b30
+        border: 1px solid #ff3b3044
+
+    .order-items
+        max-width: 200px
+    .item-list
+        display: flex
+        flex-direction: column
+        gap: 4px
+        .item
+            display: flex
+            justify-content: space-between
+            font-size: 13px
+        .item-name
+            color: #1d1d1f
+            overflow: hidden
+            text-overflow: ellipsis
+            white-space: nowrap
+            flex: 1
+        .item-quantity
+            color: #86868b
+            margin-left: 8px
+
+    .order-actions
+        display: flex
+        gap: 8px
+    button
+        padding: 6px 12px
+        font-size: 13px
+        white-space: nowrap
+
+.order-details-modal
+    .modal-content
+        max-width: 900px
+    .order-header
+        display: flex
+        justify-content: space-between
+        align-items: flex-start
+        margin-bottom: 24px
+        .order-info
+        h3
+            font-size: 20px
+            font-weight: 700
+            color: #1d1d1f
+            margin: 0 0 8px 0
+        .order-meta
+            font-size: 14px
+            color: #86868b
+        .order-actions-top
+            display: flex
+            gap: 8px
+
+    .order-sections
+        display: grid
+        grid-template-columns: 2fr 1fr
+        gap: 24px
+    @media (max-width: 768px)
+        grid-template-columns: 1fr
+
+    .order-section
+        background: #f8f9fa
+        border-radius: 12px
+        padding: 20px
+    h4
+        font-size: 16px
+        font-weight: 600
+        color: #1d1d1f
+        margin: 0 0 16px 0
+        padding-bottom: 8px
+        border-bottom: 1px solid #e0e0e0
+
+    .items-list
+    .item-row
+        display: flex
+        align-items: center
+        padding: 12px 0
+        border-bottom: 1px solid #e0e0e0
+        &:last-child
+            border-bottom: none
+        .item-image
+            width: 60px
+            height: 60px
+            background: #e0e0e0
+            border-radius: 8px
+            margin-right: 12px
+            display: flex
+            align-items: center
+            justify-content: center
+            color: #86868b
+            font-size: 24px
+        .item-details
+            flex: 1
+        .item-name
+            font-weight: 600
+            color: #1d1d1f
+            margin-bottom: 4px
+        .item-sku
+            font-size: 13px
+            color: #86868b
+        .item-price
+            font-weight: 600
+            color: #1d1d1f
+            text-align: right
+        .item-total
+            font-size: 16px
+        .item-unit
+            font-size: 13px
+            color: #86868b
+
+    .order-summary
+    .summary-row
+        display: flex
+        justify-content: space-between
+        padding: 8px 0
+        font-size: 14px
+        &.total
+            font-weight: 700
+            font-size: 18px
+            border-top: 2px solid #e0e0e0
+            margin-top: 8px
+            padding-top: 16px
+
+    .customer-info, .shipping-info
+    .info-row
+        display: flex
+        margin-bottom: 12px
+        &:last-child
+            margin-bottom: 0
+        .info-label
+            font-weight: 600
+            color: #86868b
+            width: 120px
+            flex-shrink: 0
+        .info-value
+            color: #1d1d1f
+            flex: 1
+
+    .timeline
+        margin-top: 24px
+    .timeline-item
+        display: flex
+        align-items: flex-start
+        margin-bottom: 16px
+        &:last-child
+            margin-bottom: 0
+        .timeline-dot
+            width: 12px
+            height: 12px
+            border-radius: 50%
+            background: #e0e0e0
+            margin-right: 12px
+            margin-top: 4px
+        &.active
+            background: #0071e3
+        &.completed
+            background: #34c759
+        .timeline-content
+            flex: 1
+        .timeline-title
+            font-weight: 600
+            color: #1d1d1f
+            margin-bottom: 4px
+        .timeline-date
+            font-size: 13px
+            color: #86868b
+
+.stats-cards
+    display: grid
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))
+    gap: 20px
+    margin-bottom: 30px
+    .stat-card
+        background: white
+        border-radius: 16px
+        padding: 24px
+        border: 1px solid #f0f0f0
+        text-align: center
+    .stat-icon
+        font-size: 32px
+        margin-bottom: 12px
+    .stat-value
+        font-size: 28px
+        font-weight: 700
+        color: #1d1d1f
+        margin-bottom: 4px
+    .stat-label
+        font-size: 14px
+        color: #86868b
+    &.revenue
+        .stat-icon
+            color: #34c759
+    &.pending
+        .stat-icon
+            color: #ff9500
+    &.processing
+        .stat-icon
+            color: #0071e3
+    &.avg-order
+        .stat-icon
+            color: #5856d6

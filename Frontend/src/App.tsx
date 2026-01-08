@@ -15,6 +15,13 @@ import SmartphonesandPhotographicEquiment from './catalog-items/smartphones-and-
 import TVConsolesandAudio from './catalog-items/TV-сonsoles-and-audio/TV-сonsoles-and-audio'
 import Auth from './auth-and-register/auth'
 import Register from './auth-and-register/register'
+import AdminMainFull from './admin_panel/admin_panel_full/admin_panel_full'
+import AdminMain from './admin_panel/admin_panel_main/admin_panel_main'
+import AdminMainCatalogItem from './admin_panel/admin_panel_catalog_item/admin_panel_catalog_item'
+import AdminMainNews from './admin_panel/admin_panel_news/admin_panel_news'
+import AdminMainOrder from './admin_panel/admin_panel_order/admin_panel_order'
+import AdminMainShop from './admin_panel/admin_panel_shop_item/admin_panel_shop_item'
+import AdminMainUser from './admin_panel/admin_panel_user/admin_panel_user'
 
 
 function App() {
@@ -34,6 +41,13 @@ function App() {
       <Route path="/PCslaptopsperiphearls" element={<Layout><PCsLaptopsPeripherals /></Layout>} />
       <Route path="/SmartphonesandPhotographicEquiment" element={<Layout><SmartphonesandPhotographicEquiment /></Layout>} />
       <Route path="/TVconsolesandAudio" element={<Layout><TVConsolesandAudio /></Layout>} />
+      <Route path="/adminpanelfull" element={<Layout><AdminMainFull /></Layout>} />
+      <Route path="/adminpanel" element={<Layout><AdminMain /></Layout>} />
+      <Route path="/adminpanelcatalog" element={<Layout><AdminMainCatalogItem /></Layout>} />
+      <Route path="/adminpanelnews" element={<Layout><AdminMainNews /></Layout>} />
+      <Route path="/adminpanelorder" element={<Layout><AdminMainOrder /></Layout>} />
+      <Route path="/adminpanelshop" element={<Layout><AdminMainShop /></Layout>} />
+      <Route path="/adminpaneluser" element={<Layout><AdminMainUser /></Layout>} />
     </Routes>
   )
 }

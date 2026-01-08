@@ -148,20 +148,6 @@ function MainPages() {
                                         ✔ 4.8 | 167 отзывов
                                     </p>
                                 </div>
-                                <div className="main-all-you_might_like_it_top product-card">
-                                    <div className="image-container">
-                                        <img className='main-all-you_might_like_it_top-img' src="" alt="" />
-                                    </div>
-                                    <div className="price-container">
-                                        <span className="current-price">9 999 ₽</span>
-                                    </div>
-                                    <p className='main-all-you_might_like_it_top_text'>
-                                        Беспроводные наушники Turtle Beach STEALTH 500 черный 202...
-                                    </p>
-                                    <p className='main-all-you_might_like_it_top-rating'>
-                                        <span className="rating-text">Нет оценок</span>
-                                    </p>
-                                </div>
                             </div>
                         </div>
                     </div>

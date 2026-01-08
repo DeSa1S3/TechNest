@@ -79,7 +79,6 @@ function AuthAndRegister() {
                     >
                         Войти
                     </button>
-
                     <div className="register-section">
                         <p className="register-text">
                             Нет аккаунта?
@@ -94,7 +93,6 @@ function AuthAndRegister() {
 
                         </p>
                     </div>
-
                     <p className="consent-text">
                         Нажимая кнопку «Войти», вы даёте согласие на обработку своих персональных данных в соответствии с <a href="#" className="policy-link">Политикой в отношении обработки персональных данных</a>.
                     </p>

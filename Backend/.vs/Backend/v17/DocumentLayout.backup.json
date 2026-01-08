@@ -3,6 +3,26 @@
   "WorkspaceRootPath": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{0CAB4957-3AE2-4CAE-9716-4F73C22654D0}|Backend.csproj|c:\\users\\rozan\\desktop\\gitfolder\\technest\\backend\\services\\servicemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0CAB4957-3AE2-4CAE-9716-4F73C22654D0}|Backend.csproj|solutionrelative:services\\servicemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0CAB4957-3AE2-4CAE-9716-4F73C22654D0}|Backend.csproj|c:\\users\\rozan\\desktop\\gitfolder\\technest\\backend\\interfaces\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0CAB4957-3AE2-4CAE-9716-4F73C22654D0}|Backend.csproj|solutionrelative:interfaces\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0CAB4957-3AE2-4CAE-9716-4F73C22654D0}|Backend.csproj|c:\\users\\rozan\\desktop\\gitfolder\\technest\\backend\\services\\databaseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0CAB4957-3AE2-4CAE-9716-4F73C22654D0}|Backend.csproj|solutionrelative:services\\databaseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0CAB4957-3AE2-4CAE-9716-4F73C22654D0}|Backend.csproj|c:\\users\\rozan\\desktop\\gitfolder\\technest\\backend\\services\\maybelikeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0CAB4957-3AE2-4CAE-9716-4F73C22654D0}|Backend.csproj|solutionrelative:services\\maybelikeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0CAB4957-3AE2-4CAE-9716-4F73C22654D0}|Backend.csproj|c:\\users\\rozan\\desktop\\gitfolder\\technest\\backend\\interfaces\\imaybelikeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0CAB4957-3AE2-4CAE-9716-4F73C22654D0}|Backend.csproj|solutionrelative:interfaces\\imaybelikeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{0CAB4957-3AE2-4CAE-9716-4F73C22654D0}|Backend.csproj|c:\\users\\rozan\\desktop\\gitfolder\\technest\\backend\\services\\catalogservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0CAB4957-3AE2-4CAE-9716-4F73C22654D0}|Backend.csproj|solutionrelative:services\\catalogservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -71,22 +91,6 @@
       "RelativeMoniker": "D:0:0:{0CAB4957-3AE2-4CAE-9716-4F73C22654D0}|Backend.csproj|solutionrelative:interfaces\\idatabaseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0CAB4957-3AE2-4CAE-9716-4F73C22654D0}|Backend.csproj|c:\\users\\rozan\\desktop\\gitfolder\\technest\\backend\\services\\databaseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0CAB4957-3AE2-4CAE-9716-4F73C22654D0}|Backend.csproj|solutionrelative:services\\databaseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0CAB4957-3AE2-4CAE-9716-4F73C22654D0}|Backend.csproj|c:\\users\\rozan\\desktop\\gitfolder\\technest\\backend\\services\\servicemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0CAB4957-3AE2-4CAE-9716-4F73C22654D0}|Backend.csproj|solutionrelative:services\\servicemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0CAB4957-3AE2-4CAE-9716-4F73C22654D0}|Backend.csproj|c:\\users\\rozan\\desktop\\gitfolder\\technest\\backend\\interfaces\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0CAB4957-3AE2-4CAE-9716-4F73C22654D0}|Backend.csproj|solutionrelative:interfaces\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0CAB4957-3AE2-4CAE-9716-4F73C22654D0}|Backend.csproj|c:\\users\\rozan\\desktop\\gitfolder\\technest\\backend\\interfaces\\imaybelikeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0CAB4957-3AE2-4CAE-9716-4F73C22654D0}|Backend.csproj|solutionrelative:interfaces\\imaybelikeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{0CAB4957-3AE2-4CAE-9716-4F73C22654D0}|Backend.csproj|c:\\users\\rozan\\desktop\\gitfolder\\technest\\backend\\interfaces\\icatalogservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0CAB4957-3AE2-4CAE-9716-4F73C22654D0}|Backend.csproj|solutionrelative:interfaces\\icatalogservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -101,10 +105,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{0CAB4957-3AE2-4CAE-9716-4F73C22654D0}|Backend.csproj|c:\\users\\rozan\\desktop\\gitfolder\\technest\\backend\\interfaces\\iruleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0CAB4957-3AE2-4CAE-9716-4F73C22654D0}|Backend.csproj|solutionrelative:interfaces\\iruleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0CAB4957-3AE2-4CAE-9716-4F73C22654D0}|Backend.csproj|c:\\users\\rozan\\desktop\\gitfolder\\technest\\backend\\services\\maybelikeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0CAB4957-3AE2-4CAE-9716-4F73C22654D0}|Backend.csproj|solutionrelative:services\\maybelikeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0CAB4957-3AE2-4CAE-9716-4F73C22654D0}|Backend.csproj|c:\\users\\rozan\\desktop\\gitfolder\\technest\\backend\\interfaces\\iservicemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -313,96 +313,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "UsersTable.cs",
-              "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Tables\\UsersTable.cs",
-              "RelativeDocumentMoniker": "Tables\\UsersTable.cs",
-              "ToolTip": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Tables\\UsersTable.cs",
-              "RelativeToolTip": "Tables\\UsersTable.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-15T18:06:56.131Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 12,
-              "Title": "UserAddDTO.cs",
-              "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Middleware_Components\\DTO\\UserAddDTO.cs",
-              "RelativeDocumentMoniker": "Middleware_Components\\DTO\\UserAddDTO.cs",
-              "ToolTip": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Middleware_Components\\DTO\\UserAddDTO.cs",
-              "RelativeToolTip": "Middleware_Components\\DTO\\UserAddDTO.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAXAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-20T16:28:42.557Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADMAAABCAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-15T17:33:35.226Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "RuleTable.cs",
-              "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Tables\\RuleTable.cs",
-              "RelativeDocumentMoniker": "Tables\\RuleTable.cs",
-              "ToolTip": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Tables\\RuleTable.cs",
-              "RelativeToolTip": "Tables\\RuleTable.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-26T16:35:44.484Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "NewsService.cs",
-              "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Services\\NewsService.cs",
-              "RelativeDocumentMoniker": "Services\\NewsService.cs",
-              "ToolTip": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Services\\NewsService.cs",
-              "RelativeToolTip": "Services\\NewsService.cs",
-              "ViewState": "AgIAAKQAAAAAAAAAAAAAwKUAAABHAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-03T13:33:28.237Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "NewsTable.cs",
-              "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Tables\\NewsTable.cs",
-              "RelativeDocumentMoniker": "Tables\\NewsTable.cs",
-              "ToolTip": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Tables\\NewsTable.cs",
-              "RelativeToolTip": "Tables\\NewsTable.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAwAAAAhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-26T16:34:07.072Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "UserGetDTO.cs",
-              "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Middleware_Components\\DTO\\UserGetDTO.cs",
-              "RelativeDocumentMoniker": "Middleware_Components\\DTO\\UserGetDTO.cs",
-              "ToolTip": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Middleware_Components\\DTO\\UserGetDTO.cs",
-              "RelativeToolTip": "Middleware_Components\\DTO\\UserGetDTO.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-20T16:31:58.254Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
               "Title": "GetRuleDTO.cs",
               "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Middleware_Components\\DTO\\GetRuleDTO.cs",
               "RelativeDocumentMoniker": "Middleware_Components\\DTO\\GetRuleDTO.cs",
@@ -414,7 +329,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 9,
               "Title": "ShopItemService.cs",
               "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Services\\ShopItemService.cs",
               "RelativeDocumentMoniker": "Services\\ShopItemService.cs",
@@ -426,7 +341,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 7,
               "Title": "ShopItemController.cs",
               "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Controllers\\ShopItemController.cs",
               "RelativeDocumentMoniker": "Controllers\\ShopItemController.cs",
@@ -438,20 +353,169 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 5,
               "Title": "CatalogService.cs",
               "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Services\\CatalogService.cs",
               "RelativeDocumentMoniker": "Services\\CatalogService.cs",
               "ToolTip": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Services\\CatalogService.cs",
               "RelativeToolTip": "Services\\CatalogService.cs",
-              "ViewState": "AgIAAJkAAAAAAAAAAAAmwL4AAABhAAAAAAAAAA==",
+              "ViewState": "AgIAAJkAAAAAAAAAAAAmwKwAAABLAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-03T13:33:37.625Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 3,
+              "Title": "MaybeLikeService.cs",
+              "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Services\\MaybeLikeService.cs",
+              "RelativeDocumentMoniker": "Services\\MaybeLikeService.cs",
+              "ToolTip": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Services\\MaybeLikeService.cs",
+              "RelativeToolTip": "Services\\MaybeLikeService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwA0AAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-03T13:33:50.543Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "IMaybeLikeService.cs",
+              "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Interfaces\\IMaybeLikeService.cs",
+              "RelativeDocumentMoniker": "Interfaces\\IMaybeLikeService.cs",
+              "ToolTip": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Interfaces\\IMaybeLikeService.cs",
+              "RelativeToolTip": "Interfaces\\IMaybeLikeService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwBEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-03T13:36:26.177Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADMAAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-15T17:33:35.226Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DatabaseService.cs",
+              "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Services\\DatabaseService.cs",
+              "RelativeDocumentMoniker": "Services\\DatabaseService.cs",
+              "ToolTip": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Services\\DatabaseService.cs",
+              "RelativeToolTip": "Services\\DatabaseService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAIwA8AAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-26T19:09:02.266Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "IUserService.cs",
+              "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Interfaces\\IUserService.cs",
+              "RelativeDocumentMoniker": "Interfaces\\IUserService.cs",
+              "ToolTip": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Interfaces\\IUserService.cs",
+              "RelativeToolTip": "Interfaces\\IUserService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-03T13:34:13.922Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ServiceManager.cs",
+              "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Services\\ServiceManager.cs",
+              "RelativeDocumentMoniker": "Services\\ServiceManager.cs",
+              "ToolTip": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Services\\ServiceManager.cs",
+              "RelativeToolTip": "Services\\ServiceManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-16T19:19:40.092Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "UserGetDTO.cs",
+              "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Middleware_Components\\DTO\\UserGetDTO.cs",
+              "RelativeDocumentMoniker": "Middleware_Components\\DTO\\UserGetDTO.cs",
+              "ToolTip": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Middleware_Components\\DTO\\UserGetDTO.cs",
+              "RelativeToolTip": "Middleware_Components\\DTO\\UserGetDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-20T16:31:58.254Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "NewsTable.cs",
+              "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Tables\\NewsTable.cs",
+              "RelativeDocumentMoniker": "Tables\\NewsTable.cs",
+              "ToolTip": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Tables\\NewsTable.cs",
+              "RelativeToolTip": "Tables\\NewsTable.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAwAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-26T16:34:07.072Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "NewsService.cs",
+              "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Services\\NewsService.cs",
+              "RelativeDocumentMoniker": "Services\\NewsService.cs",
+              "ToolTip": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Services\\NewsService.cs",
+              "RelativeToolTip": "Services\\NewsService.cs",
+              "ViewState": "AgIAAKQAAAAAAAAAAAAAwKUAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-03T13:33:28.237Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "RuleTable.cs",
+              "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Tables\\RuleTable.cs",
+              "RelativeDocumentMoniker": "Tables\\RuleTable.cs",
+              "ToolTip": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Tables\\RuleTable.cs",
+              "RelativeToolTip": "Tables\\RuleTable.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-26T16:35:44.484Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "UserAddDTO.cs",
+              "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Middleware_Components\\DTO\\UserAddDTO.cs",
+              "RelativeDocumentMoniker": "Middleware_Components\\DTO\\UserAddDTO.cs",
+              "ToolTip": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Middleware_Components\\DTO\\UserAddDTO.cs",
+              "RelativeToolTip": "Middleware_Components\\DTO\\UserAddDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-20T16:28:42.557Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "UsersTable.cs",
+              "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Tables\\UsersTable.cs",
+              "RelativeDocumentMoniker": "Tables\\UsersTable.cs",
+              "ToolTip": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Tables\\UsersTable.cs",
+              "RelativeToolTip": "Tables\\UsersTable.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-15T18:06:56.131Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
               "Title": "DataContext.cs",
               "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\DataContext.cs",
               "RelativeDocumentMoniker": "DataContext.cs",
@@ -463,7 +527,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 10,
               "Title": "RuleService.cs",
               "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Services\\RuleService.cs",
               "RelativeDocumentMoniker": "Services\\RuleService.cs",
@@ -475,7 +539,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 16,
               "Title": "UserService.cs",
               "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Services\\UserService.cs",
               "RelativeDocumentMoniker": "Services\\UserService.cs",
@@ -487,7 +551,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 19,
               "Title": "UserReviewsTable.cs",
               "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Tables\\UserReviewsTable.cs",
               "RelativeDocumentMoniker": "Tables\\UserReviewsTable.cs",
@@ -499,7 +563,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 20,
               "Title": "BaseService.cs",
               "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Services\\BaseService.cs",
               "RelativeDocumentMoniker": "Services\\BaseService.cs",
@@ -511,7 +575,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 21,
               "Title": "IDatabaseService.cs",
               "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Interfaces\\IDatabaseService.cs",
               "RelativeDocumentMoniker": "Interfaces\\IDatabaseService.cs",
@@ -523,55 +587,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "DatabaseService.cs",
-              "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Services\\DatabaseService.cs",
-              "RelativeDocumentMoniker": "Services\\DatabaseService.cs",
-              "ToolTip": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Services\\DatabaseService.cs",
-              "RelativeToolTip": "Services\\DatabaseService.cs",
-              "ViewState": "AgIAANUFAAAAAAAAAAAkwAgGAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-26T19:09:02.266Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "ServiceManager.cs",
-              "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Services\\ServiceManager.cs",
-              "RelativeDocumentMoniker": "Services\\ServiceManager.cs",
-              "ToolTip": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Services\\ServiceManager.cs",
-              "RelativeToolTip": "Services\\ServiceManager.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-16T19:19:40.092Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "IUserService.cs",
-              "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Interfaces\\IUserService.cs",
-              "RelativeDocumentMoniker": "Interfaces\\IUserService.cs",
-              "ToolTip": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Interfaces\\IUserService.cs",
-              "RelativeToolTip": "Interfaces\\IUserService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAvAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-03T13:34:13.922Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "IMaybeLikeService.cs",
-              "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Interfaces\\IMaybeLikeService.cs",
-              "RelativeDocumentMoniker": "Interfaces\\IMaybeLikeService.cs",
-              "ToolTip": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Interfaces\\IMaybeLikeService.cs",
-              "RelativeToolTip": "Interfaces\\IMaybeLikeService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAABfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-03T13:36:26.177Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 22,
               "Title": "ICatalogService.cs",
               "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Interfaces\\ICatalogService.cs",
               "RelativeDocumentMoniker": "Interfaces\\ICatalogService.cs",
@@ -583,7 +599,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 23,
               "Title": "INewsService.cs",
               "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Interfaces\\INewsService.cs",
               "RelativeDocumentMoniker": "Interfaces\\INewsService.cs",
@@ -595,7 +611,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 24,
               "Title": "IShopItemService.cs",
               "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Interfaces\\IShopItemService.cs",
               "RelativeDocumentMoniker": "Interfaces\\IShopItemService.cs",
@@ -607,7 +623,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 25,
               "Title": "IRuleService.cs",
               "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Interfaces\\IRuleService.cs",
               "RelativeDocumentMoniker": "Interfaces\\IRuleService.cs",
@@ -616,18 +632,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-03T13:34:22.614Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 25,
-              "Title": "MaybeLikeService.cs",
-              "DocumentMoniker": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Services\\MaybeLikeService.cs",
-              "RelativeDocumentMoniker": "Services\\MaybeLikeService.cs",
-              "ToolTip": "C:\\Users\\rozan\\Desktop\\GitFolder\\TechNest\\Backend\\Services\\MaybeLikeService.cs",
-              "RelativeToolTip": "Services\\MaybeLikeService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-03T13:33:50.543Z"
             },
             {
               "$type": "Document",
