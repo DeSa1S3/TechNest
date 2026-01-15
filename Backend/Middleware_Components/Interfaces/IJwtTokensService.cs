@@ -1,19 +1,15 @@
-﻿using System.Security.Claims;
-using System.Threading.Tasks;
-using Backend.Middleware_Components.DTO;
+﻿using Backend.Middleware_Components.DTO;
+using System.Security.Claims;
 
-namespace Backend.Middleware_Components.Interfaces
+public interface IJwtTokensService
 {
-    public interface IJwtTokensService
-    {
-        string GenerateAccessToken(IEnumerable<Claim> claims, int id);
-        string GenerateRefreshToken(int id);
-        Task<bool> IsRefreshValid(int id, string token);
-        Task<bool> IsAccessValid(string? token);
-        Task<int> GetTokenUserId(string token);
-        Task<bool> RoleValid(string token, string role);
-        Task SignOut(string token);
-        Task<UserLoginDTO?> RefreshSession(string accessToken, string refreshToken);
-        Task<TokenValidateResultDTO> AccessTokenValidation(string token);
-    }
+    string GenerateAccessToken(IEnumerable<Claim> claims, Guid id);
+    string GenerateRefreshToken(Guid id);
+    Task<bool> IsRefreshValid(Guid id, string token); 
+    Task<bool> IsAccessValid(string? token);
+    Task<Guid> GetTokenUserId(string token); 
+    Task<bool> RoleValid(string token, string role);
+    Task SignOut(string token);
+    Task<UserLoginDTO?> RefreshSession(string accessToken, string refreshToken);
+    Task<TokenValidateResultDTO> AccessTokenValidation(string token);
 }

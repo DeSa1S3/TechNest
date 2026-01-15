@@ -12,7 +12,7 @@ using TechNest.Backend.Data;
 namespace Backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20251227062938_Init")]
+    [Migration("20260115180111_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -134,11 +134,9 @@ namespace Backend.Migrations
 
             modelBuilder.Entity("Backend.Tables.RuleTable", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("created_at")
                         .HasColumnType("timestamp with time zone");
@@ -207,17 +205,16 @@ namespace Backend.Migrations
 
             modelBuilder.Entity("Backend.Tables.UsersTable", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Img")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Password")
@@ -228,9 +225,16 @@ namespace Backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string[]>("Roles")
+                    b.Property<string>("Roles")
                         .IsRequired()
-                        .HasColumnType("text[]");
+                        .HasColumnType("text");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("created_at")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("firstName")
                         .IsRequired()
@@ -239,6 +243,9 @@ namespace Backend.Migrations
                     b.Property<string>("lastName")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<DateTime?>("updated_at")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 

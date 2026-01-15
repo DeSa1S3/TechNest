@@ -18,13 +18,13 @@ namespace Backend.Controllers
     {
         private readonly ILogger<NewsController> _logger;
         private readonly IJwtTokensService _jwtTokensService;
-        private readonly IDatabaseService _databaseService;
+        private readonly INewsService _newsService;
 
-        public NewsController(ILogger<NewsController> logger, IJwtTokensService jwtTokensService, IDatabaseService databaseService)
+        public NewsController(ILogger<NewsController> logger, IJwtTokensService jwtTokensService, INewsService newsService)
         {
             _logger = logger;
             _jwtTokensService = jwtTokensService;
-            _databaseService = databaseService;
+            _newsService = newsService;
         }
         
         [HttpGet("{id}")]
@@ -33,7 +33,7 @@ namespace Backend.Controllers
         {
             try
             {
-                var news = await _databaseService.GetNewsById(id);
+                var news = await _newsService.GetNewsById(id);
                 if (news == null)
                 {
                     return NotFound($"Новость с id {id} не найдена");
@@ -67,7 +67,7 @@ namespace Backend.Controllers
 
                 var userId = await _jwtTokensService.GetTokenUserId(authHeader);
 
-                var createdNews = await _databaseService.CreateNews(dto, userId);
+                var createdNews = await _newsService.CreateNews(dto, userId);
                 return CreatedAtAction(nameof(GetNewsById), new { id = createdNews.Id }, createdNews);
             }
             catch (Exception ex)
@@ -94,7 +94,7 @@ namespace Backend.Controllers
                     return Forbid("Только менеджеры могут обновлять новости");
                 }
 
-                var updatedNews = await _databaseService.UpdateNews(id, dto);
+                var updatedNews = await _newsService.UpdateNews(id, dto);
                 if (updatedNews == null)
                 {
                     return NotFound($"Новость с id {id} не найдена");
@@ -126,7 +126,7 @@ namespace Backend.Controllers
                     return Forbid("Только менеджеры могут удалять новости");
                 }
 
-                var success = await _databaseService.DeleteNews(id);
+                var success = await _newsService.DeleteNews(id);
                 if (!success)
                 {
                     return NotFound($"Новость с id {id} не найдена");
@@ -191,7 +191,7 @@ namespace Backend.Controllers
                 }
 
                 var imageUrl = $"/uploads/news/{fileName}";
-                var success = await _databaseService.UpdateNewsImage(id, imageUrl);
+                var success = await _newsService.UpdateNewsImage(id, imageUrl);
 
                 if (!success)
                 {
@@ -217,7 +217,7 @@ namespace Backend.Controllers
         {
             try
             {
-                var news = await _databaseService.GetNewsById(id);
+                var news = await _newsService.GetNewsById(id);
                 if (news == null || string.IsNullOrEmpty(news.Img))
                 {
                     return NotFound("Изображение не найдено");
@@ -259,7 +259,7 @@ namespace Backend.Controllers
                     return Forbid("Только менеджеры могут удалять изображения");
                 }
 
-                var success = await _databaseService.DeleteNewsImage(id);
+                var success = await _newsService.DeleteNewsImage(id);
                 if (!success)
                 {
                     return NotFound($"Новость с id {id} не найдена или не имеет изображения");

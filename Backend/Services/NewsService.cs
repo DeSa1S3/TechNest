@@ -49,7 +49,7 @@ namespace Backend.Services
             }
         }
 
-        public async Task<NewsGetDTO> CreateNews(NewsDTO dto, int createdByUserId)
+        public async Task<NewsGetDTO> CreateNews(NewsDTO dto, Guid createdByUserId)
         {
             try
             {

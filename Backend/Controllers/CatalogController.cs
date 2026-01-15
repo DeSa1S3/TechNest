@@ -18,13 +18,13 @@ namespace Backend.Controllers
     {
         private readonly ILogger<CatalogController> _logger;
         private readonly IJwtTokensService _jwtTokensService;
-        private readonly IDatabaseService _databaseService;
+        private readonly ICatalogService _catalogService;
 
-        public CatalogController(ILogger<CatalogController> logger,IJwtTokensService jwtTokensService,IDatabaseService databaseService)
+        public CatalogController(ILogger<CatalogController> logger,IJwtTokensService jwtTokensService, ICatalogService catalogService)
         {
             _logger = logger;
             _jwtTokensService = jwtTokensService;
-            _databaseService = databaseService;
+            _catalogService = catalogService;
         }
 
         [HttpGet]
@@ -32,7 +32,7 @@ namespace Backend.Controllers
         {
             try
             {
-                var categories = await _databaseService.GetAllCatalogCategories();
+                var categories = await _catalogService.GetAllCatalogCategories();
                 return Ok(categories);
             }
             catch (Exception ex)
@@ -47,7 +47,7 @@ namespace Backend.Controllers
         {
             try
             {
-                var categories = await _databaseService.GetRootCategories();
+                var categories = await _catalogService.GetRootCategories();
                 return Ok(categories);
             }
             catch (Exception ex)
@@ -62,7 +62,7 @@ namespace Backend.Controllers
         {
             try
             {
-                var categories = await _databaseService.GetSubCategories(parentId);
+                var categories = await _catalogService.GetSubCategories(parentId);
                 return Ok(categories);
             }
             catch (Exception ex)
@@ -78,7 +78,7 @@ namespace Backend.Controllers
         {
             try
             {
-                var category = await _databaseService.GetCatalogCategoryById(id);
+                var category = await _catalogService.GetCatalogCategoryById(id);
                 if (category == null)
                 {
                     return NotFound($"Категория с идентификатором  {id}  не найдена");
@@ -110,7 +110,7 @@ namespace Backend.Controllers
                     return Forbid("Создавать категории каталога могут только менеджеры.");
                 }
 
-                var createdCategory = await _databaseService.CreateCatalogCategory(dto);
+                var createdCategory = await _catalogService.CreateCatalogCategory(dto);
                 return CreatedAtAction(nameof(GetCategoryById), new { id = createdCategory.Id }, createdCategory);
             }
             catch (Exception ex)
@@ -137,7 +137,7 @@ namespace Backend.Controllers
                     return Forbid("Обновлять категории каталога могут только менеджеры.");
                 }
 
-                var updatedCategory = await _databaseService.UpdateCatalogCategory(id, dto);
+                var updatedCategory = await _catalogService.UpdateCatalogCategory(id, dto);
                 if (updatedCategory == null)
                 {
                     return NotFound($"Категория с идентификатором {id} не найдена");
@@ -169,7 +169,7 @@ namespace Backend.Controllers
                     return Forbid("Удалять категории каталога могут только менеджеры.");
                 }
 
-                var success = await _databaseService.DeleteCatalogCategory(id);
+                var success = await _catalogService.DeleteCatalogCategory(id);
                 if (!success)
                 {
                     return NotFound($"Категория с идентификатором {id} не найдена");
@@ -234,7 +234,7 @@ namespace Backend.Controllers
                 }
 
                 var imageUrl = $"/uploads/catalog/{fileName}";
-                var success = await _databaseService.UpdateCatalogImage(id, imageUrl);
+                var success = await _catalogService.UpdateCatalogImage(id, imageUrl);
 
                 if (!success)
                 {
@@ -259,7 +259,7 @@ namespace Backend.Controllers
         {
             try
             {
-                var category = await _databaseService.GetCatalogCategoryById(id);
+                var category = await _catalogService.GetCatalogCategoryById(id);
                 if (category == null || string.IsNullOrEmpty(category.Img))
                 {
                     return NotFound("Изображение не найдено");
@@ -301,7 +301,7 @@ namespace Backend.Controllers
                     return Forbid("Удалять изображения могут только менеджеры.");
                 }
 
-                var success = await _databaseService.DeleteCatalogImage(id);
+                var success = await _catalogService.DeleteCatalogImage(id);
                 if (!success)
                 {
                     return NotFound($"Категория с идентификатором {id} не найдена или не имеет изображения.");

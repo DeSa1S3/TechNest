@@ -18,13 +18,13 @@ namespace Backend.Controllers
     {
         private readonly ILogger<MaybeLikeController> _logger;
         private readonly IJwtTokensService _jwtTokensService;
-        private readonly IDatabaseService _databaseService;
+        private readonly IMaybeLikeService _maybeLikeService;
 
-        public MaybeLikeController(ILogger<MaybeLikeController> logger, IJwtTokensService jwtTokensService,IDatabaseService databaseService)
+        public MaybeLikeController(ILogger<MaybeLikeController> logger, IJwtTokensService jwtTokensService, IMaybeLikeService maybeLikeService)
         {
             _logger = logger;
             _jwtTokensService = jwtTokensService;
-            _databaseService = databaseService;
+            _maybeLikeService = maybeLikeService;
         }
 
         //[HttpGet("Random")]
@@ -52,7 +52,7 @@ namespace Backend.Controllers
         {
             try
             {
-                var item = await _databaseService.GetMaybeLikeItemById(id);
+                var item = await _maybeLikeService.GetMaybeLikeItemById(id);
                 if (item == null)
                 {
                     return NotFound($"Возможно, это означает, что элемент с идентификатором {id} не найден.");
@@ -67,25 +67,25 @@ namespace Backend.Controllers
             }
         }
 
-        [HttpGet("Search")]
-        public async Task<IActionResult> SearchItems([FromQuery] string query, [FromQuery] int page = 1, [FromQuery] int pageSize = 20)
-        {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(query))
-                {
-                    return BadRequest("Требуется поисковый запрос");
-                }
+        //[HttpGet("Search")]
+        //public async Task<IActionResult> SearchItems([FromQuery] string query, [FromQuery] int page = 1, [FromQuery] int pageSize = 20)
+        //{
+        //    try
+        //    {
+        //        if (string.IsNullOrWhiteSpace(query))
+        //        {
+        //            return BadRequest("Требуется поисковый запрос");
+        //        }
 
-                var items = await _databaseService.SearchMaybeLikeItems(query, page, pageSize);
-                return Ok(items);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Ошибка поиска может быть связана с элементами, содержащими запрос: {query}.");
-                return StatusCode(500, "Внутренняя ошибка сервера");
-            }
-        }
+        //        var items = await _maybeLikeService.SearchMaybeLikeItems(query, page, pageSize);
+        //        return Ok(items);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, $"Ошибка поиска может быть связана с элементами, содержащими запрос: {query}.");
+        //        return StatusCode(500, "Внутренняя ошибка сервера");
+        //    }
+        //}
 
         [HttpPost]
         public async Task<IActionResult> CreateItem([FromBody] MaybeLikeDTO dto)
@@ -114,7 +114,7 @@ namespace Backend.Controllers
                     return BadRequest("Скидка должна быть в диапазоне от 0 до 100.");
                 }
 
-                var createdItem = await _databaseService.CreateMaybeLikeItem(dto);
+                var createdItem = await _maybeLikeService.CreateMaybeLikeItem(dto);
                 return CreatedAtAction(nameof(GetItemById), new { id = createdItem.Id }, createdItem);
             }
             catch (Exception ex)
@@ -151,7 +151,7 @@ namespace Backend.Controllers
                     return BadRequest("Скидка должна быть в диапазоне от 0 до 100.");
                 }
 
-                var updatedItem = await _databaseService.UpdateMaybeLikeItem(id, dto);
+                var updatedItem = await _maybeLikeService.UpdateMaybeLikeItem(id, dto);
                 if (updatedItem == null)
                 {
                     return NotFound($"Возможно, это означает, что элемент с идентификатором {id} не найден.");
@@ -183,7 +183,7 @@ namespace Backend.Controllers
                     return Forbid("Удалять, возможно, похожие элементы могут только менеджеры.");
                 }
 
-                var success = await _databaseService.DeleteMaybeLikeItem(id);
+                var success = await _maybeLikeService.DeleteMaybeLikeItem(id);
                 if (!success)
                 {
                     return NotFound($"Возможно, это означает, что элемент с идентификатором {id} не найден.");
@@ -248,7 +248,7 @@ namespace Backend.Controllers
                 }
 
                 var imageUrl = $"/uploads/maybe-like/{fileName}";
-                var success = await _databaseService.UpdateMaybeLikeImage(id, imageUrl);
+                var success = await _maybeLikeService.UpdateMaybeLikeImage(id, imageUrl);
 
                 if (!success)
                 {
@@ -273,7 +273,7 @@ namespace Backend.Controllers
         {
             try
             {
-                var item = await _databaseService.GetMaybeLikeItemById(id);
+                var item = await _maybeLikeService.GetMaybeLikeItemById(id);
                 if (item == null || string.IsNullOrEmpty(item.Img))
                 {
                     return NotFound("Изображение не найдено");
@@ -315,7 +315,7 @@ namespace Backend.Controllers
                     return Forbid("Удалять изображения могут только менеджеры.");
                 }
 
-                var success = await _databaseService.DeleteMaybeLikeImage(id);
+                var success = await _maybeLikeService.DeleteMaybeLikeImage(id);
                 if (!success)
                 {
                     return NotFound($"Возможно, это элемент с идентификатором {id} не найден или у него нет изображения.");
@@ -339,7 +339,7 @@ namespace Backend.Controllers
         {
             try
             {
-                var items = await _databaseService.GetAllMaybeLikeItems(page, pageSize, category, activeOnly);
+                var items = await _maybeLikeService.GetAllMaybeLikeItems(page, pageSize, category, activeOnly);
                 return Ok(items);
             }
             catch (Exception ex)

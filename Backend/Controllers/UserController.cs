@@ -4,11 +4,10 @@ using Backend.Middleware_Components.Interfaces;
 using Backend.Middleware_Components.JWT;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 
 namespace ServiceUI.Controllers
 {
-
-
     [Route("api/User/")]
     [ApiController]
     [Authorize(AuthenticationSchemes = "Asymmetric")]
@@ -16,13 +15,13 @@ namespace ServiceUI.Controllers
     {
         private readonly JwtTokensService _jwt;
         private readonly ILogger _logger;
-        private readonly IBackendService _serviceBackend;
+        private readonly IUserService _userService;
 
-        public UsersController(JwtTokensService jwt, IBackendService serviceBackend)
+        public UsersController(JwtTokensService jwt, IUserService userService)
         {
             _logger = LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger("user-controller-logger");
             _jwt = jwt;
-            _serviceBackend = serviceBackend;
+            _userService = userService;
         }
 
         //ТОЛЬКО Администратор 
@@ -31,7 +30,8 @@ namespace ServiceUI.Controllers
         {
             try
             {
-                await _serviceBackend.AddNewUser(dtoObj, email, Request.Headers["Authorization"]);
+                var authHeader = GetAuthHeader();
+                await _userService.AddUser(dtoObj, email, authHeader);
                 return Ok("user_added");
             }
             catch (Exception ex)
@@ -42,11 +42,12 @@ namespace ServiceUI.Controllers
 
         //ТОЛЬКО Администратор 
         [HttpPatch("Change/{id}")]
-        public async Task<IActionResult> ChangeUser([FromBody] UserChangeDTO dtoObj, Guid id)
+        public async Task<IActionResult> ChangeUser(Guid id, [FromBody] UserChangeDTO dtoObj) // Изменен порядок параметров
         {
             try
             {
-                await _serviceBackend.ChangeUser(dtoObj, id, Request.Headers["Authorization"]);
+                var authHeader = GetAuthHeader();
+                await _userService.ChangeUser(dtoObj, id, authHeader);
                 return Ok("user_changed");
             }
             catch (Exception ex)
@@ -61,7 +62,8 @@ namespace ServiceUI.Controllers
         {
             try
             {
-               await _serviceBackend.DeleteUser(id, Request.Headers["Authorization"]);
+                var authHeader = GetAuthHeader();
+                await _userService.DeleteUser(id, authHeader);
                 return Ok("user_deleted");
             }
             catch (Exception ex)
@@ -70,14 +72,14 @@ namespace ServiceUI.Controllers
             }
         }
 
-
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser(Guid id)
         {
             try
             {
-                var user = await _serviceBackend.GetUser(id, Request.Headers["Authorization"]);
-                return Ok("user");
+                var authHeader = GetAuthHeader();
+                var user = await _userService.GetUser(id, authHeader);
+                return Ok(user); // Исправлено: возвращаем объект user, а не строку "user"
             }
             catch (Exception ex)
             {
@@ -90,13 +92,24 @@ namespace ServiceUI.Controllers
         {
             try
             {
-                //var users = await _serviceBackend.GetAllUsers(from, count, Request.Headers["Authorization"]);
-                return Ok("users");
+                var authHeader = GetAuthHeader();
+                var users = await _userService.GetAllUsers(from, count, authHeader);
+                return Ok(users); // Исправлено: возвращаем объект users, а не строку "users"
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        private string GetAuthHeader()
+        {
+            var authHeader = Request.Headers["Authorization"].ToString();
+            if (string.IsNullOrEmpty(authHeader))
+            {
+                throw new UnauthorizedAccessException("Заголовок Authorization отсутствует");
+            }
+            return authHeader;
         }
     }
 }

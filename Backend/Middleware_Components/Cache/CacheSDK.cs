@@ -4,9 +4,6 @@ using System.Text.Json;
 
 namespace Backend.Middleware_Components.Cache
 {
-
-    //Unique Team - реализация в команде
-
     public class CacheSDK : ICacheService
     {
         private IDatabase _cacheDb;
@@ -67,7 +64,6 @@ namespace Backend.Middleware_Components.Cache
         {
             var ttl = _cacheDb.KeyTimeToLive(key);
 
-            // Ульяновская временная зона (UTC+4)
             var ulyanovskTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Russian Standard Time");
 
             if (ttl.HasValue)
@@ -79,12 +75,12 @@ namespace Backend.Middleware_Components.Cache
             return TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, ulyanovskTimeZone).AddHours(1);
         }
 
-        public void WriteKeyInStorage(int id_user, string type, string key, DateTime extime)
+        public void WriteKeyInStorage(Guid id_user, string type, string key, DateTime extime)
         {
             SetData($"{type}_storage_{id_user}", key, extime);
         }
 
-        public void WriteKeyInStorage<T>(int id_user, string type, T key, DateTime extime)
+        public void WriteKeyInStorage<T>(Guid id_user, string type, T key, DateTime extime)
         {
             SetData($"{type}_storage_{id_user}", key, extime);
         }
@@ -99,12 +95,12 @@ namespace Backend.Middleware_Components.Cache
             RemoveData($"{storage_desc}_storage");
         }
 
-        public void DeleteKeyFromStorage(int id_user, string type)
+        public void DeleteKeyFromStorage(Guid id_user, string type)
         {
             RemoveData($"{type}_storage_{id_user}");
         }
 
-        public bool CheckExistKeysStorage(int id_user, string type)
+        public bool CheckExistKeysStorage(Guid id_user, string type)
         {
             var cache_data = GetData<string>($"{type}_storage_{id_user}");
 
@@ -114,7 +110,7 @@ namespace Backend.Middleware_Components.Cache
             return false;
         }
 
-        public bool CheckExistKeysStorage<T>(int id_user, string type)
+        public bool CheckExistKeysStorage<T>(Guid id_user, string type)
         {
             var cache_data = GetData<T>($"{type}_storage_{id_user}");
 
@@ -134,7 +130,7 @@ namespace Backend.Middleware_Components.Cache
             return false;
         }
 
-        public string? GetKeyFromStorage(int id_user, string type)
+        public string? GetKeyFromStorage(Guid id_user, string type)
         {
             var cache_data = GetData<string>($"{type}_storage_{id_user}");
 
@@ -142,7 +138,7 @@ namespace Backend.Middleware_Components.Cache
         }
 
 
-        public T GetKeyFromStorage<T>(int id_user, string type)
+        public T GetKeyFromStorage<T>(Guid id_user, string type)
         {
             var cache_data = GetData<T>($"{type}_storage_{id_user}");
 

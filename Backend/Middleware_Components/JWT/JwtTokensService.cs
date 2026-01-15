@@ -27,7 +27,7 @@ namespace Backend.Middleware_Components.JWT
             _logger = logger;
         }
 
-        public string GenerateAccessToken(IEnumerable<Claim> claims, int id)
+        public string GenerateAccessToken(IEnumerable<Claim> claims, Guid id)
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
                 _config.GetSection("JwtSettings")["SecretKey"] ?? "default_secret_key_32_chars_long_1234567890"));
@@ -54,7 +54,7 @@ namespace Backend.Middleware_Components.JWT
             return tokenReleased;
         }
 
-        public string GenerateRefreshToken(int id)
+        public string GenerateRefreshToken(Guid id)
         {
             var randomBytes = new byte[32];
             using var rng = RandomNumberGenerator.Create();
@@ -83,7 +83,6 @@ namespace Backend.Middleware_Components.JWT
                 return null;
             }
 
-            // Убираем "Bearer " префикс если есть
             if (token.StartsWith("Bearer "))
             {
                 token = token.Substring(7);
@@ -117,7 +116,8 @@ namespace Backend.Middleware_Components.JWT
             }
         }
 
-        public async Task<bool> IsRefreshValid(int id, string token)
+        // ИЗМЕНИТЬ НА Guid!
+        public async Task<bool> IsRefreshValid(Guid id, string token)
         {
             if (_cache.CheckExistKeysStorage(id, "refreshTokens"))
             {
@@ -132,7 +132,7 @@ namespace Backend.Middleware_Components.JWT
             var validation = await ValidateTokenAsync(token);
             if (validation == null) return false;
 
-            // Проверяем в кэше
+            
             var userId = GetUserIdFromToken(validation);
             if (userId.HasValue)
             {
@@ -143,21 +143,20 @@ namespace Backend.Middleware_Components.JWT
             return false;
         }
 
-        // ИСПРАВЛЕННЫЙ МЕТОД - убрано async Task<>
-        private int? GetUserIdFromToken(JwtSecurityToken token)
+        private Guid? GetUserIdFromToken(JwtSecurityToken token)
         {
             foreach (var claim in token.Claims)
             {
                 if (claim.Type == "Id" || claim.Type == ClaimTypes.NameIdentifier)
                 {
-                    if (int.TryParse(claim.Value, out int userId))
+                    if (Guid.TryParse(claim.Value, out Guid userId))
                         return userId;
                 }
             }
             return null;
         }
 
-        public async Task<int> GetTokenUserId(string token)
+        public async Task<Guid> GetTokenUserId(string token)
         {
             var validation = await ValidateTokenAsync(token);
             if (validation == null)
@@ -187,7 +186,6 @@ namespace Backend.Middleware_Components.JWT
                     }
                     catch
                     {
-                        // Если не удалось десериализовать как массив, проверяем как строку
                         return claim.Value == role;
                     }
                 }
@@ -230,12 +228,12 @@ namespace Backend.Middleware_Components.JWT
                     }
                     catch
                     {
-                        // Если не удалось десериализовать
                         userRoles = new List<string> { claim.Value };
                     }
                 }
             }
 
+            // ИЗМЕНИТЬ userId.Value на userId.Value (но тип уже Guid!)
             if (await IsRefreshValid(userId.Value, refreshToken))
             {
                 var serializer_roles = JsonSerializer.Serialize(userRoles);
@@ -298,7 +296,12 @@ namespace Backend.Middleware_Components.JWT
 
                 return new TokenValidateResultDTO
                 {
-                    token_success = new TokenSuccessDTO { Id = userId.Value, Email = email, Roles = roles }
+                    token_success = new TokenSuccessDTO
+                    {
+                        Id = userId.Value, 
+                        Email = email,
+                        Roles = roles
+                    }
                 };
             }
             catch (Exception ex)

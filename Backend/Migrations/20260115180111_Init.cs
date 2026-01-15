@@ -76,8 +76,7 @@ namespace Backend.Migrations
                 name: "rule_tables",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     name = table.Column<string>(type: "text", nullable: false),
                     description = table.Column<string>(type: "text", nullable: false),
                     logic = table.Column<string>(type: "text", nullable: false),
@@ -113,15 +112,17 @@ namespace Backend.Migrations
                 name: "user_table",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     firstName = table.Column<string>(type: "text", nullable: false),
                     lastName = table.Column<string>(type: "text", nullable: false),
-                    RegistrationDate = table.Column<string>(type: "text", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
                     Password = table.Column<string>(type: "text", nullable: false),
-                    Roles = table.Column<string[]>(type: "text[]", nullable: false),
-                    Img = table.Column<string>(type: "text", nullable: true)
+                    Roles = table.Column<string>(type: "text", nullable: false),
+                    Img = table.Column<string>(type: "text", nullable: false),
+                    RegistrationDate = table.Column<string>(type: "text", nullable: false),
+                    Status = table.Column<string>(type: "text", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {

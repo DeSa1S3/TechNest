@@ -36,8 +36,6 @@ namespace Backend.Services
                 try
                 {
                     var mailAddress = new MailAddress(email);
-                    if (!mailAddress.Address.Equals(email, StringComparison.OrdinalIgnoreCase))
-                        return (false, "Неверный формат email");
                 }
                 catch
                 {
@@ -58,22 +56,30 @@ namespace Backend.Services
             }
         }
 
-        public async Task<UserGetDTO> AddUser(UserAddDTO dtoObj)
+        public async Task<UserGetDTO> AddUser(UserAddDTO dtoObj, string email, string authHeader)
         {
             try
             {
+                if (string.IsNullOrEmpty(authHeader))
+                    throw new UnauthorizedAccessException("Требуется авторизация");
+
+                string rolesString = dtoObj.Roles != null && dtoObj.Roles.Length > 0
+                    ? string.Join(",", dtoObj.Roles)
+                    : null;
+
                 var user = new UsersTable
                 {
-                    Id = dtoObj.Id(),
+                    Id = Guid.NewGuid(),
                     firstName = dtoObj.firstName,
                     lastName = dtoObj.lastName,
                     Email = dtoObj.Email,
                     Password = dtoObj.Password,
-                    Roles = dtoObj.Roles,
+                    Roles = rolesString,
                     Img = dtoObj.Img,
                     RegistrationDate = DateTime.UtcNow.ToString("yyyy-MM-dd"),
-                    Status = dtoObj.Status,
-                    created_at = DateTime.UtcNow
+                    Status = dtoObj.Status ?? "Active",
+                    created_at = DateTime.UtcNow,
+                    updated_at = DateTime.UtcNow
                 };
 
                 _context.user_table.Add(user);
@@ -88,10 +94,13 @@ namespace Backend.Services
             }
         }
 
-        public async Task ChangeUser(Guid id, UserChangeDTO dtoObj)
+        public async Task ChangeUser(UserChangeDTO dtoObj, Guid id, string authHeader)
         {
             try
             {
+                if (string.IsNullOrEmpty(authHeader))
+                    throw new UnauthorizedAccessException("Требуется авторизация");
+
                 var user = await _context.user_table.FindAsync(id);
                 if (user == null)
                     throw new Exception($"User with id {id} not found");
@@ -108,11 +117,18 @@ namespace Backend.Services
                 if (!string.IsNullOrEmpty(dtoObj.Password))
                     user.Password = dtoObj.Password;
 
-                if (dtoObj.Roles != null && dtoObj.Roles.Length > 0)
-                    user.Roles = string.Join(",", dtoObj.Roles);
+                if (dtoObj.Roles != null)
+                {
+                    user.Roles = dtoObj.Roles.Length > 0
+                        ? string.Join(",", dtoObj.Roles)
+                        : null;
+                }
 
-                if (dtoObj.Img != null)
+                if (!string.IsNullOrEmpty(dtoObj.Img))
                     user.Img = dtoObj.Img;
+
+                if (!string.IsNullOrEmpty(dtoObj.Status))
+                    user.Status = dtoObj.Status;
 
                 user.updated_at = DateTime.UtcNow;
                 await _context.SaveChangesAsync();
@@ -124,10 +140,13 @@ namespace Backend.Services
             }
         }
 
-        public async Task DeleteUser(Guid idUser)
+        public async Task DeleteUser(Guid idUser, string authHeader)
         {
             try
             {
+                if (string.IsNullOrEmpty(authHeader))
+                    throw new UnauthorizedAccessException("Требуется авторизация");
+
                 var user = await _context.user_table.FindAsync(idUser);
                 if (user == null)
                     throw new Exception($"User with id {idUser} not found");
@@ -142,10 +161,13 @@ namespace Backend.Services
             }
         }
 
-        public async Task<List<UserGetDTO>> GetAllUsers(int from, int count)
+        public async Task<List<UserGetDTO>> GetAllUsers(int from, int count, string authHeader)
         {
             try
             {
+                if (string.IsNullOrEmpty(authHeader))
+                    throw new UnauthorizedAccessException("Требуется авторизация");
+
                 var users = await _context.user_table
                     .OrderBy(u => u.created_at)
                     .Skip(from)
@@ -161,10 +183,13 @@ namespace Backend.Services
             }
         }
 
-        public async Task<UserGetDTO?> GetUser(Guid idUser)
+        public async Task<UserGetDTO?> GetUser(Guid idUser, string authHeader)
         {
             try
             {
+                if (string.IsNullOrEmpty(authHeader))
+                    throw new UnauthorizedAccessException("Требуется авторизация");
+
                 var user = await _context.user_table.FindAsync(idUser);
                 return user != null ? MapToUserGetDTO(user) : null;
             }
@@ -234,7 +259,7 @@ namespace Backend.Services
 
                 return new MeDTO
                 {
-                    Id = Convert.ToInt32(user.Id),
+                    Id = userId,
                     firstName = user.firstName,
                     lastName = user.lastName,
                     RegistrationDate = user.RegistrationDate,
@@ -252,16 +277,22 @@ namespace Backend.Services
 
         private UserGetDTO MapToUserGetDTO(UsersTable user)
         {
+            string[] rolesArray = Array.Empty<string>();
+            if (!string.IsNullOrEmpty(user.Roles))
+            {
+                rolesArray = user.Roles.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            }
+
             return new UserGetDTO
             {
-                Id = Convert.ToInt32(user.Id),
+                Id = user.Id,
                 firstName = user.firstName,
                 lastName = user.lastName,
                 RegistrationDate = user.RegistrationDate,
                 Status = user.Status,
                 Email = user.Email,
                 Password = user.Password,
-                Roles = user.Roles?.Split(',', StringSplitOptions.RemoveEmptyEntries) ?? Array.Empty<string>(),
+                Roles = rolesArray, 
                 Img = user.Img,
                 created_at = user.created_at,
                 updated_at = user.updated_at

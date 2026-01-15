@@ -16,14 +16,14 @@ namespace Backend.Controllers
     public class ShopItemsController : ControllerBase
     {
         private readonly ILogger<ShopItemsController> _logger;
-        private readonly IBackendService _backendService;
+        private readonly IShopItemService _shopItemService;
         private readonly IJwtTokensService _jwtTokensService;
         private readonly IDatabaseService _databaseService;
 
-        public ShopItemsController(ILogger<ShopItemsController> logger,IBackendService backendService,IJwtTokensService jwtTokensService,IDatabaseService databaseService)
+        public ShopItemsController(ILogger<ShopItemsController> logger, IShopItemService shopItemService, IJwtTokensService jwtTokensService,IDatabaseService databaseService)
         {
             _logger = logger;
-            _backendService = backendService;
+            _shopItemService = shopItemService;
             _jwtTokensService = jwtTokensService;
             //_databaseService = databaseService;
         }
@@ -45,7 +45,7 @@ namespace Backend.Controllers
                     return Unauthorized("Неверный токен");
                 }
 
-                var items = await _databaseService.GetAllShopItems(page, pageSize, category);
+                var items = await _shopItemService.GetAllShopItems(page, pageSize, category);
                 return Ok(items);
             }
             catch (Exception ex)
@@ -72,7 +72,7 @@ namespace Backend.Controllers
                     return Unauthorized("Неверный токен");
                 }
 
-                var item = await _databaseService.GetShopItemById(id);
+                var item = await _shopItemService.GetShopItemById(id);
                 if (item == null)
                 {
                     return NotFound($"Товар магазина с id {id} не найден");
@@ -104,7 +104,7 @@ namespace Backend.Controllers
                     return Forbid("Только менеджеры могут создавать товары магазина");
                 }
 
-                var createdItem = await _databaseService.CreateShopItem(dto);
+                var createdItem = await _shopItemService.CreateShopItem(dto);
                 return CreatedAtAction(nameof(GetShopItemById), new { id = createdItem.Id }, createdItem);
             }
             catch (Exception ex)
@@ -131,7 +131,7 @@ namespace Backend.Controllers
                     return Forbid("Только менеджеры могут обновлять товары магазина");
                 }
 
-                var updatedItem = await _databaseService.UpdateShopItem(id, dto);
+                var updatedItem = await _shopItemService.UpdateShopItem(id, dto);
                 if (updatedItem == null)
                 {
                     return NotFound($"Товар магазина с id {id} не найден");
@@ -163,7 +163,7 @@ namespace Backend.Controllers
                     return Forbid("Только менеджеры могут удалять товары магазина");
                 }
 
-                var success = await _databaseService.DeleteShopItem(id);
+                var success = await _shopItemService.DeleteShopItem(id);
                 if (!success)
                 {
                     return NotFound($"Товар магазина с id {id} не найден");
@@ -228,8 +228,8 @@ namespace Backend.Controllers
                 }
 
                 var imageUrl = $"/uploads/shop-items/{fileName}";
-                var success = await _databaseService.UpdateShopItemImage(id, imageUrl);
-
+                var success = await _shopItemService.UpdateShopItemImage(id, imageUrl);
+                    
                 if (!success)
                 {
                     return NotFound($"Товар магазина с id {id} не найден");
@@ -265,7 +265,7 @@ namespace Backend.Controllers
                     return Unauthorized("Неверный токен");
                 }
 
-                var item = await _databaseService.GetShopItemById(id);
+                var item = await _shopItemService.GetShopItemById(id);
                 if (item == null || string.IsNullOrEmpty(item.Img))
                 {
                     return NotFound("Изображение не найдено");
@@ -315,7 +315,7 @@ namespace Backend.Controllers
                     return BadRequest("Поисковый запрос обязателен");
                 }
 
-                var items = await _databaseService.SearchShopItems(query, page, pageSize);
+                var items = await _shopItemService.SearchShopItems(query, page, pageSize);
                 return Ok(items);
             }
             catch (Exception ex)
@@ -345,7 +345,7 @@ namespace Backend.Controllers
                     return Unauthorized("Неверный токен");
                 }
 
-                var items = await _databaseService.GetShopItemsByCategory(category, page, pageSize);
+                var items = await _shopItemService.GetShopItemsByCategory(category, page, pageSize);
                 return Ok(items);
             }
             catch (Exception ex)
@@ -372,7 +372,7 @@ namespace Backend.Controllers
                     return Forbid("Только менеджеры могут удалять изображения");
                 }
 
-                var success = await _databaseService.DeleteShopItemImage(id);
+                var success = await _shopItemService.DeleteShopItemImage(id);
                 if (!success)
                 {
                     return NotFound($"Товар магазина с id {id} не найден или не имеет изображения");

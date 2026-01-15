@@ -14,12 +14,12 @@ namespace Backend.Controllers
     {
         private readonly IJwtTokensService _jwtTokensService;
         private readonly ILogger<RulesController> _logger;
-        private readonly IBackendService _backendService;
+        private readonly IRuleService _ruleService;
 
-        public RulesController( IJwtTokensService jwtTokensService,IBackendService backendService,ILogger<RulesController> logger)
+        public RulesController( IJwtTokensService jwtTokensService, IRuleService ruleService, ILogger<RulesController> logger)
         {
             _jwtTokensService = jwtTokensService;
-            _backendService = backendService;
+            _ruleService = ruleService;
             _logger = logger;
         }
 
@@ -34,7 +34,7 @@ namespace Backend.Controllers
                     return Unauthorized("Заголовок Authorization отсутствует");
                 }
 
-                await _backendService.CreateRuleTimed(dtoObj, authHeader);
+                await _ruleService.CreateRuleTimed(dtoObj, authHeader);
                 return Ok("правило_добавлено");
             }
             catch (Exception ex)
@@ -55,7 +55,7 @@ namespace Backend.Controllers
                     return Unauthorized("Заголовок Authorization отсутствует");
                 }
 
-                await _backendService.AcceptRule(ruleName, userId, authHeader);
+                await _ruleService.AcceptRule(ruleName, userId, authHeader);
                 return Ok("правило_принято");
             }
             catch (Exception ex)
@@ -76,7 +76,7 @@ namespace Backend.Controllers
                     return Unauthorized("Заголовок Authorization отсутствует");
                 }
 
-                var rules = await _backendService.GetTimedRules(authHeader);
+                var rules = await _ruleService.GetTimedRules(authHeader);
 
                 if (rules != null)
                     return Ok(rules);
@@ -136,7 +136,7 @@ namespace Backend.Controllers
                     return Unauthorized("Заголовок Authorization отсутствует");
                 }
 
-                var rule = await _backendService.GetRuleFromDB(id, authHeader);
+                var rule = await _ruleService.GetRuleFromDB(id, authHeader);
 
                 if (rule != null)
                     return Ok(rule);
@@ -161,7 +161,7 @@ namespace Backend.Controllers
                     return Unauthorized("Заголовок Authorization отсутствует");
                 }
 
-                var rules = await _backendService.GetRulesFromDB(authHeader);
+                var rules = await _ruleService.GetRulesFromDB(authHeader);
 
                 if (rules != null && rules.Count > 0)
                     return Ok(rules);

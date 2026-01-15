@@ -45,7 +45,7 @@ namespace Backend.Controllers
                     RegistrationDate = register_DTO.DateOfBirth,
                     Email = register_DTO.Email,
                     Password = register_DTO.Password,
-                    Roles = new string[] { "User" }
+                    //Roles = new string[] { "User" }
                 };
                 DB.user_table.Add(userTable);
                 await DB.SaveChangesAsync();

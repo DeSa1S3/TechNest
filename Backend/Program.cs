@@ -116,8 +116,13 @@ namespace TechNest
             builder.Services.AddSingleton<IJwtTokensService, JwtTokensService>();
             builder.Services.AddSingleton<ICacheService, CacheSDK>();
 
-            builder.Services.AddScoped<IBackendService, BackendService>();     
-            builder.Services.AddScoped<IDatabaseService, DatabaseService>();   
+            // Убраны дублирующиеся регистрации
+            builder.Services.AddScoped<ICatalogService, CatalogService>();
+            builder.Services.AddScoped<IMaybeLikeService, MaybeLikeService>();
+            builder.Services.AddScoped<INewsService, NewsService>();
+            builder.Services.AddScoped<IRuleService, RuleService>();
+            builder.Services.AddScoped<IUserService, UserService>(); // Добавлено
+            builder.Services.AddScoped<IDatabaseService, DatabaseService>();
 
             var app = builder.Build();
 
