@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import type { Order } from '../../components/panel_index';
+import { catalogService } from '../../service/apiServices';
 import './admin_panel_order.sass';
 
 const AdminOrders: React.FC = () => {
@@ -74,6 +75,7 @@ const AdminOrders: React.FC = () => {
             address: 'Казань, ул. Баумана, д. 15'
         },
     ]);
+
 
     const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
     const [showDetailsModal, setShowDetailsModal] = useState(false);

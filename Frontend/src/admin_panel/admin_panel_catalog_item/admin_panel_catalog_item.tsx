@@ -1,25 +1,29 @@
-import React, { useState } from 'react';
-import type { CatalogItem, Category } from '../../components/panel_index';
+import React, { useState, useEffect } from 'react';
+import { catalogService } from '../../service/apiServices';
 import './admin_panel_catalog_item.sass';
 
+interface Category {
+    id: number;
+    name: string;
+    description?: string;
+    productCount: number;
+}
+
+interface CatalogItem {
+    id: number;
+    name: string;
+    category: string;
+    description: string;
+    price: number;
+    sku: string;
+    tags: string[];
+}
+
 const AdminCatalogItem: React.FC = () => {
-    const [catalogItems, setCatalogItems] = useState<CatalogItem[]>([
-        { id: 1, name: 'Ноутбуки', category: 'Электроника', description: 'Портативные компьютеры и ноутбуки', price: 0, sku: 'CAT-001', tags: ['электроника', 'компьютеры'] },
-        { id: 2, name: 'Смартфоны', category: 'Электроника', description: 'Мобильные телефоны и аксессуары', price: 0, sku: 'CAT-002', tags: ['электроника', 'телефоны'] },
-        { id: 3, name: 'Планшеты', category: 'Электроника', description: 'Планшетные компьютеры', price: 0, sku: 'CAT-003', tags: ['электроника', 'планшеты'] },
-        { id: 4, name: 'Наушники', category: 'Аксессуары', description: 'Беспроводные и проводные наушники', price: 0, sku: 'CAT-004', tags: ['аудио', 'аксессуары'] },
-        { id: 5, name: 'Умные часы', category: 'Гаджеты', description: 'Смарт-часы и фитнес-трекеры', price: 0, sku: 'CAT-005', tags: ['носимые', 'гаджеты'] },
-    ]);
-
-    const [categories, setCategories] = useState<Category[]>([
-        { id: 1, name: 'Электроника', productCount: 156 },
-        { id: 2, name: 'Компьютеры', productCount: 89 },
-        { id: 3, name: 'Смартфоны', productCount: 234 },
-        { id: 4, name: 'Периферия', productCount: 412 },
-        { id: 5, name: 'Аксессуары', productCount: 567 },
-        { id: 6, name: 'Игры', productCount: 198 },
-    ]);
-
+    const [catalogItems, setCatalogItems] = useState<CatalogItem[]>([]);
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
     const [showModal, setShowModal] = useState(false);
     const [editingItem, setEditingItem] = useState<CatalogItem | null>(null);
     const [formData, setFormData] = useState({
@@ -31,6 +35,47 @@ const AdminCatalogItem: React.FC = () => {
         tags: [] as string[],
     });
     const [newTag, setNewTag] = useState('');
+
+    useEffect(() => {
+        loadCategories();
+    }, []);
+
+    const loadCategories = async () => {
+        try {
+            setLoading(true);
+            setError(null);
+
+            const data = await catalogService.getAllCategories();
+
+            const formattedCategories: Category[] = data.map((cat: any) => ({
+                id: cat.id,
+                name: cat.name,
+                description: cat.description,
+                productCount: cat.subCategories?.length || 0
+            }));
+
+            const formattedCatalogItems: CatalogItem[] = data.flatMap((cat: any) =>
+                cat.subCategories?.map((subCat: any) => ({
+                    id: subCat.id,
+                    name: subCat.name,
+                    category: cat.name,
+                    description: subCat.description || '',
+                    price: 0,
+                    sku: `CAT-${subCat.id}`,
+                    tags: [cat.name.toLowerCase()]
+                })) || []
+            );
+
+            setCategories(formattedCategories);
+            setCatalogItems(formattedCatalogItems);
+
+        } catch (err: any) {
+            setError(`Ошибка загрузки: ${err.message}`);
+            console.error('Ошибка загрузки категорий:', err);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const handleAddItem = () => {
         setEditingItem(null);
@@ -58,36 +103,46 @@ const AdminCatalogItem: React.FC = () => {
         setShowModal(true);
     };
 
-    const handleDeleteItem = (id: number) => {
+    const handleDeleteItem = async (id: number) => {
         if (window.confirm('Вы уверены, что хотите удалить этот элемент каталога?')) {
-            setCatalogItems(catalogItems.filter(item => item.id !== id));
+            try {
+                await catalogService.deleteCategory(id);
+                await loadCategories();
+                alert('Элемент успешно удален');
+            } catch (err: any) {
+                alert(`Ошибка удаления: ${err.message}`);
+            }
         }
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!formData.name.trim() || !formData.sku.trim()) {
-            alert('Пожалуйста, заполните обязательные поля');
+        if (!formData.name.trim()) {
+            alert('Пожалуйста, заполните название');
             return;
         }
 
-        if (editingItem) {
-            setCatalogItems(catalogItems.map(item =>
-                item.id === editingItem.id
-                    ? { ...item, ...formData }
-                    : item
-            ));
-        } else {
-            const newItem: CatalogItem = {
-                id: Math.max(...catalogItems.map(i => i.id)) + 1,
-                ...formData,
-                price: Number(formData.price) || 0,
+        try {
+            const categoryData = {
+                name: formData.name,
+                description: formData.description,
+                parentCategoryId: categories.find(c => c.name === formData.category)?.id || null
             };
-            setCatalogItems([...catalogItems, newItem]);
-        }
 
-        setShowModal(false);
+            if (editingItem) {
+                await catalogService.updateCategory(editingItem.id, categoryData);
+            } else {
+                await catalogService.createCategory(categoryData);
+            }
+
+            await loadCategories();
+            setShowModal(false);
+            alert(editingItem ? 'Элемент успешно обновлен' : 'Элемент успешно создан');
+
+        } catch (err: any) {
+            alert(`Ошибка сохранения: ${err.message}`);
+        }
     };
 
     const handleAddTag = () => {
@@ -106,6 +161,27 @@ const AdminCatalogItem: React.FC = () => {
             tags: formData.tags.filter(t => t !== tag)
         });
     };
+
+    if (loading) {
+        return (
+            <div className="catalog-container">
+                <div className="loading">Загрузка данных...</div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="catalog-container">
+                <div className="error-message">
+                    Ошибка: {error}
+                    <button onClick={loadCategories} className="btn-primary">
+                        Попробовать снова
+                    </button>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="catalog-container">
@@ -209,7 +285,6 @@ const AdminCatalogItem: React.FC = () => {
                                 </td>
                                 <td>
                                     <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
-                                        {/* Исправленная строка 213 - правильный тип для key */}
                                         {item.tags.map((tag: string, index: number) => (
                                             <span key={`${item.id}-${tag}-${index}`} style={{
                                                 fontSize: '11px',

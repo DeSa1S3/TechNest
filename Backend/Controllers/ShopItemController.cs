@@ -20,12 +20,12 @@ namespace Backend.Controllers
         private readonly IJwtTokensService _jwtTokensService;
         private readonly IDatabaseService _databaseService;
 
-        public ShopItemsController(ILogger<ShopItemsController> logger, IShopItemService shopItemService, IJwtTokensService jwtTokensService,IDatabaseService databaseService)
+        public ShopItemsController(ILogger<ShopItemsController> logger, IShopItemService shopItemService, IJwtTokensService jwtTokensService, IDatabaseService databaseService)
         {
             _logger = logger;
             _shopItemService = shopItemService;
             _jwtTokensService = jwtTokensService;
-            //_databaseService = databaseService;
+            _databaseService = databaseService;
         }
 
         [HttpGet]
@@ -36,13 +36,13 @@ namespace Backend.Controllers
                 var authHeader = Request.Headers["Authorization"].ToString();
                 if (string.IsNullOrEmpty(authHeader))
                 {
-                    return Unauthorized("Заголовок Authorization отсутствует");
+                    return Unauthorized("Р—Р°РіРѕР»РѕРІРѕРє Authorization РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚");
                 }
 
                 var isValid = await _jwtTokensService.IsAccessValid(authHeader);
                 if (!isValid)
                 {
-                    return Unauthorized("Неверный токен");
+                    return Unauthorized("РќРµРґРµР№СЃС‚РІРёС‚РµР»СЊРЅС‹Р№ С‚РѕРєРµРЅ");
                 }
 
                 var items = await _shopItemService.GetAllShopItems(page, pageSize, category);
@@ -50,7 +50,7 @@ namespace Backend.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Ошибка при получении всех товаров магазина");
+                _logger.LogError(ex, "РћС€РёР±РєР° РїСЂРё РїРѕР»СѓС‡РµРЅРёРё РІСЃРµС… С‚РѕРІР°СЂРѕРІ РјР°РіР°Р·РёРЅР°");
                 return StatusCode(500, ex.Message);
             }
         }
@@ -63,30 +63,30 @@ namespace Backend.Controllers
                 var authHeader = Request.Headers["Authorization"].ToString();
                 if (string.IsNullOrEmpty(authHeader))
                 {
-                    return Unauthorized("Заголовок Authorization отсутствует");
+                    return Unauthorized("Р—Р°РіРѕР»РѕРІРѕРє Authorization РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚");
                 }
 
                 var isValid = await _jwtTokensService.IsAccessValid(authHeader);
                 if (!isValid)
                 {
-                    return Unauthorized("Неверный токен");
+                    return Unauthorized("РќРµРґРµР№СЃС‚РІРёС‚РµР»СЊРЅС‹Р№ С‚РѕРєРµРЅ");
                 }
 
                 var item = await _shopItemService.GetShopItemById(id);
                 if (item == null)
                 {
-                    return NotFound($"Товар магазина с id {id} не найден");
+                    return NotFound($"РўРѕРІР°СЂ СЃ id {id} РЅРµ РЅР°Р№РґРµРЅ");
                 }
 
                 return Ok(item);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Ошибка при получении товара магазина с id {id}");
+                _logger.LogError(ex, $"РћС€РёР±РєР° РїСЂРё РїРѕР»СѓС‡РµРЅРёРё С‚РѕРІР°СЂР° РјР°РіР°Р·РёРЅР° СЃ id {id}");
                 return StatusCode(500, ex.Message);
             }
         }
-        //Только менеджер
+
         [HttpPost]
         public async Task<IActionResult> CreateShopItem([FromBody] ShopItemsDTO dto)
         {
@@ -95,13 +95,13 @@ namespace Backend.Controllers
                 var authHeader = Request.Headers["Authorization"].ToString();
                 if (string.IsNullOrEmpty(authHeader))
                 {
-                    return Unauthorized("Заголовок Authorization отсутствует");
+                    return Unauthorized("Р—Р°РіРѕР»РѕРІРѕРє Authorization РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚");
                 }
 
                 var isManager = await _jwtTokensService.RoleValid(authHeader, "MANAGER");
                 if (!isManager)
                 {
-                    return Forbid("Только менеджеры могут создавать товары магазина");
+                    return Forbid("РўРѕР»СЊРєРѕ РјРµРЅРµРґР¶РµСЂС‹ РјРѕРіСѓС‚ СЃРѕР·РґР°РІР°С‚СЊ С‚РѕРІР°СЂС‹ РјР°РіР°Р·РёРЅР°");
                 }
 
                 var createdItem = await _shopItemService.CreateShopItem(dto);
@@ -109,7 +109,7 @@ namespace Backend.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Ошибка при создании товара магазина");
+                _logger.LogError(ex, "РћС€РёР±РєР° РїСЂРё СЃРѕР·РґР°РЅРёРё С‚РѕРІР°СЂР° РјР°РіР°Р·РёРЅР°");
                 return BadRequest(ex.Message);
             }
         }
@@ -122,26 +122,26 @@ namespace Backend.Controllers
                 var authHeader = Request.Headers["Authorization"].ToString();
                 if (string.IsNullOrEmpty(authHeader))
                 {
-                    return Unauthorized("Заголовок Authorization отсутствует");
+                    return Unauthorized("Р—Р°РіРѕР»РѕРІРѕРє Authorization РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚");
                 }
 
                 var isManager = await _jwtTokensService.RoleValid(authHeader, "MANAGER");
                 if (!isManager)
                 {
-                    return Forbid("Только менеджеры могут обновлять товары магазина");
+                    return Forbid("РўРѕР»СЊРєРѕ РјРµРЅРµРґР¶РµСЂС‹ РјРѕРіСѓС‚ РѕР±РЅРѕРІР»СЏС‚СЊ С‚РѕРІР°СЂС‹ РјР°РіР°Р·РёРЅР°");
                 }
 
                 var updatedItem = await _shopItemService.UpdateShopItem(id, dto);
                 if (updatedItem == null)
                 {
-                    return NotFound($"Товар магазина с id {id} не найден");
+                    return NotFound($"РўРѕРІР°СЂ СЃ id {id} РЅРµ РЅР°Р№РґРµРЅ");
                 }
 
                 return Ok(updatedItem);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Ошибка при обновлении товара магазина с id {id}");
+                _logger.LogError(ex, $"РћС€РёР±РєР° РїСЂРё РѕР±РЅРѕРІР»РµРЅРёРё С‚РѕРІР°СЂР° РјР°РіР°Р·РёРЅР° СЃ id {id}");
                 return BadRequest(ex.Message);
             }
         }
@@ -154,26 +154,26 @@ namespace Backend.Controllers
                 var authHeader = Request.Headers["Authorization"].ToString();
                 if (string.IsNullOrEmpty(authHeader))
                 {
-                    return Unauthorized("Заголовок Authorization отсутствует");
+                    return Unauthorized("Р—Р°РіРѕР»РѕРІРѕРє Authorization РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚");
                 }
 
                 var isManager = await _jwtTokensService.RoleValid(authHeader, "MANAGER");
                 if (!isManager)
                 {
-                    return Forbid("Только менеджеры могут удалять товары магазина");
+                    return Forbid("РўРѕР»СЊРєРѕ РјРµРЅРµРґР¶РµСЂС‹ РјРѕРіСѓС‚ СѓРґР°Р»СЏС‚СЊ С‚РѕРІР°СЂС‹ РјР°РіР°Р·РёРЅР°");
                 }
 
                 var success = await _shopItemService.DeleteShopItem(id);
                 if (!success)
                 {
-                    return NotFound($"Товар магазина с id {id} не найден");
+                    return NotFound($"РўРѕРІР°СЂ СЃ id {id} РЅРµ РЅР°Р№РґРµРЅ");
                 }
 
-                return Ok(new { message = $"Товар магазина с id {id} успешно удален" });
+                return Ok(new { message = $"РўРѕРІР°СЂ СЃ id {id} СѓСЃРїРµС€РЅРѕ СѓРґР°Р»РµРЅ" });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Ошибка при удалении товара магазина с id {id}");
+                _logger.LogError(ex, $"РћС€РёР±РєР° РїСЂРё СѓРґР°Р»РµРЅРёРё С‚РѕРІР°СЂР° РјР°РіР°Р·РёРЅР° СЃ id {id}");
                 return BadRequest(ex.Message);
             }
         }
@@ -186,30 +186,30 @@ namespace Backend.Controllers
                 var authHeader = Request.Headers["Authorization"].ToString();
                 if (string.IsNullOrEmpty(authHeader))
                 {
-                    return Unauthorized("Заголовок Authorization отсутствует");
+                    return Unauthorized("Р—Р°РіРѕР»РѕРІРѕРє Authorization РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚");
                 }
 
                 var isManager = await _jwtTokensService.RoleValid(authHeader, "MANAGER");
                 if (!isManager)
                 {
-                    return Forbid("Только менеджеры могут загружать изображения");
+                    return Forbid("РўРѕР»СЊРєРѕ РјРµРЅРµРґР¶РµСЂС‹ РјРѕРіСѓС‚ Р·Р°РіСЂСѓР¶Р°С‚СЊ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ");
                 }
 
                 if (file == null || file.Length == 0)
                 {
-                    return BadRequest("Файл не загружен");
+                    return BadRequest("Р¤Р°Р№Р» РЅРµ Р·Р°РіСЂСѓР¶РµРЅ");
                 }
 
                 var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
                 var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
                 if (string.IsNullOrEmpty(extension) || !allowedExtensions.Contains(extension))
                 {
-                    return BadRequest("Неподдерживаемый тип файла. Разрешены: jpg, jpeg, png, gif, webp");
+                    return BadRequest("РќРµРґРѕРїСѓСЃС‚РёРјС‹Р№ С‚РёРї С„Р°Р№Р»Р°. Р”РѕРїСѓСЃС‚РёРјС‹Рµ С‚РёРїС‹: jpg, jpeg, png, gif, webp");
                 }
 
                 if (file.Length > 5 * 1024 * 1024)
                 {
-                    return BadRequest("Размер файла слишком большой. Максимальный размер: 5MB");
+                    return BadRequest("Р Р°Р·РјРµСЂ С„Р°Р№Р»Р° СЃР»РёС€РєРѕРј Р±РѕР»СЊС€РѕР№. РњР°РєСЃРёРјР°Р»СЊРЅС‹Р№ СЂР°Р·РјРµСЂ: 5 РњР‘");
                 }
 
                 var fileName = $"shopitem_{id}_{DateTime.UtcNow.Ticks}{extension}";
@@ -232,18 +232,18 @@ namespace Backend.Controllers
                     
                 if (!success)
                 {
-                    return NotFound($"Товар магазина с id {id} не найден");
+                    return NotFound($"РўРѕРІР°СЂ СЃ id {id} РЅРµ РЅР°Р№РґРµРЅ");
                 }
 
                 return Ok(new
                 {
-                    message = "Изображение успешно загружено",
+                    message = "РР·РѕР±СЂР°Р¶РµРЅРёРµ СѓСЃРїРµС€РЅРѕ Р·Р°РіСЂСѓР¶РµРЅРѕ",
                     imageUrl = imageUrl
                 });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Ошибка при загрузке изображения для товара магазина с id {id}");
+                _logger.LogError(ex, $"РћС€РёР±РєР° РїСЂРё Р·Р°РіСЂСѓР·РєРµ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ РґР»СЏ С‚РѕРІР°СЂР° СЃ id {id}");
                 return StatusCode(500, ex.Message);
             }
         }
@@ -256,26 +256,26 @@ namespace Backend.Controllers
                 var authHeader = Request.Headers["Authorization"].ToString();
                 if (string.IsNullOrEmpty(authHeader))
                 {
-                    return Unauthorized("Заголовок Authorization отсутствует");
+                    return Unauthorized("Р—Р°РіРѕР»РѕРІРѕРє Authorization РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚");
                 }
 
                 var isValid = await _jwtTokensService.IsAccessValid(authHeader);
                 if (!isValid)
                 {
-                    return Unauthorized("Неверный токен");
+                    return Unauthorized("РќРµРґРµР№СЃС‚РІРёС‚РµР»СЊРЅС‹Р№ С‚РѕРєРµРЅ");
                 }
 
                 var item = await _shopItemService.GetShopItemById(id);
                 if (item == null || string.IsNullOrEmpty(item.Img))
                 {
-                    return NotFound("Изображение не найдено");
+                    return NotFound("РР·РѕР±СЂР°Р¶РµРЅРёРµ РЅРµ РЅР°Р№РґРµРЅРѕ");
                 }
 
                 var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", item.Img.TrimStart('/'));
 
                 if (!System.IO.File.Exists(imagePath))
                 {
-                    return NotFound("Файл изображения не найден");
+                    return NotFound("Р¤Р°Р№Р» РёР·РѕР±СЂР°Р¶РµРЅРёСЏ РЅРµ РЅР°Р№РґРµРЅ");
                 }
 
                 var imageBytes = await System.IO.File.ReadAllBytesAsync(imagePath);
@@ -285,7 +285,7 @@ namespace Backend.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Ошибка при получении изображения для товара магазина с id {id}");
+                _logger.LogError(ex, $"РћС€РёР±РєР° РїСЂРё РїРѕР»СѓС‡РµРЅРёРё РёР·РѕР±СЂР°Р¶РµРЅРёСЏ РґР»СЏ С‚РѕРІР°СЂР° СЃ id {id}");
                 return StatusCode(500, ex.Message);
             }
         }
@@ -301,18 +301,18 @@ namespace Backend.Controllers
                 var authHeader = Request.Headers["Authorization"].ToString();
                 if (string.IsNullOrEmpty(authHeader))
                 {
-                    return Unauthorized("Заголовок Authorization отсутствует");
+                    return Unauthorized("Р—Р°РіРѕР»РѕРІРѕРє Authorization РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚");
                 }
 
                 var isValid = await _jwtTokensService.IsAccessValid(authHeader);
                 if (!isValid)
                 {
-                    return Unauthorized("Неверный токен");
+                    return Unauthorized("РќРµРґРµР№СЃС‚РІРёС‚РµР»СЊРЅС‹Р№ С‚РѕРєРµРЅ");
                 }
 
                 if (string.IsNullOrWhiteSpace(query))
                 {
-                    return BadRequest("Поисковый запрос обязателен");
+                    return BadRequest("РўСЂРµР±СѓРµС‚СЃСЏ РїРѕРёСЃРєРѕРІС‹Р№ Р·Р°РїСЂРѕСЃ");
                 }
 
                 var items = await _shopItemService.SearchShopItems(query, page, pageSize);
@@ -320,7 +320,7 @@ namespace Backend.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Ошибка при поиске товаров магазина по запросу: {query}");
+                _logger.LogError(ex, $"РћС€РёР±РєР° РїРѕРёСЃРєР° С‚РѕРІР°СЂРѕРІ РјР°РіР°Р·РёРЅР° РїРѕ Р·Р°РїСЂРѕСЃСѓ: {query}");
                 return StatusCode(500, ex.Message);
             }
         }
@@ -336,13 +336,13 @@ namespace Backend.Controllers
                 var authHeader = Request.Headers["Authorization"].ToString();
                 if (string.IsNullOrEmpty(authHeader))
                 {
-                    return Unauthorized("Заголовок Authorization отсутствует");
+                    return Unauthorized("Р—Р°РіРѕР»РѕРІРѕРє Authorization РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚");
                 }
 
                 var isValid = await _jwtTokensService.IsAccessValid(authHeader);
                 if (!isValid)
                 {
-                    return Unauthorized("Неверный токен");
+                    return Unauthorized("РќРµРґРµР№СЃС‚РІРёС‚РµР»СЊРЅС‹Р№ С‚РѕРєРµРЅ");
                 }
 
                 var items = await _shopItemService.GetShopItemsByCategory(category, page, pageSize);
@@ -350,7 +350,7 @@ namespace Backend.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Ошибка при получении товаров магазина по категории: {category}");
+                _logger.LogError(ex, $"РћС€РёР±РєР° РїСЂРё РїРѕР»СѓС‡РµРЅРёРё С‚РѕРІР°СЂРѕРІ РјР°РіР°Р·РёРЅР° РїРѕ РєР°С‚РµРіРѕСЂРёРё: {category}");
                 return StatusCode(500, ex.Message);
             }
         }
@@ -363,26 +363,26 @@ namespace Backend.Controllers
                 var authHeader = Request.Headers["Authorization"].ToString();
                 if (string.IsNullOrEmpty(authHeader))
                 {
-                    return Unauthorized("Заголовок Authorization отсутствует");
+                    return Unauthorized("Р—Р°РіРѕР»РѕРІРѕРє Authorization РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚");
                 }
 
                 var isManager = await _jwtTokensService.RoleValid(authHeader, "MANAGER");
                 if (!isManager)
                 {
-                    return Forbid("Только менеджеры могут удалять изображения");
+                    return Forbid("РўРѕР»СЊРєРѕ РјРµРЅРµРґР¶РµСЂС‹ РјРѕРіСѓС‚ СѓРґР°Р»СЏС‚СЊ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ");
                 }
 
                 var success = await _shopItemService.DeleteShopItemImage(id);
                 if (!success)
                 {
-                    return NotFound($"Товар магазина с id {id} не найден или не имеет изображения");
+                    return NotFound($"РўРѕРІР°СЂ СЃ id {id} РЅРµ РЅР°Р№РґРµРЅ РёР»Рё РЅРµ РёРјРµРµС‚ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ");
                 }
 
-                return Ok(new { message = "Изображение успешно удалено" });
+                return Ok(new { message = "РР·РѕР±СЂР°Р¶РµРЅРёРµ СѓСЃРїРµС€РЅРѕ СѓРґР°Р»РµРЅРѕ" });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Ошибка при удалении изображения для товара магазина с id {id}");
+                _logger.LogError(ex, $"РћС€РёР±РєР° РїСЂРё СѓРґР°Р»РµРЅРёРё РёР·РѕР±СЂР°Р¶РµРЅРёСЏ РґР»СЏ С‚РѕРІР°СЂР° СЃ id {id}");
                 return StatusCode(500, ex.Message);
             }
         }

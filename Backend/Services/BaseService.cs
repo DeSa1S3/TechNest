@@ -42,7 +42,7 @@ namespace Backend.Services
             }
             catch (Exception ex)
             {
-                _logger.LogWarning(ex, $"Failed to delete image file: {imageUrl}");
+                _logger.LogWarning(ex, $"Ошибка удаления фотографии файла: {imageUrl}");
             }
         }
     }

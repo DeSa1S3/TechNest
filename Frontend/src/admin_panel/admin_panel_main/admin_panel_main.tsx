@@ -1,14 +1,57 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 import AdminMain from '../admin_panel_full/admin_panel_full';
 import AdminUsers from '../admin_panel_user/admin_panel_user';
 import AdminCatalogItem from '../admin_panel_catalog_item/admin_panel_catalog_item';
 import AdminShopItem from '../admin_panel_shop_item/admin_panel_shop_item';
 import AdminNews from '../admin_panel_news/admin_panel_news';
 import AdminOrders from '../admin_panel_order/admin_panel_order';
+import { authService } from '../../service/apiServices';
 import './admin_panel_main.sass';
 
 const AdminPanel: React.FC = () => {
     const [activeTab, setActiveTab] = useState<'main' | 'users' | 'catalog' | 'shop' | 'news' | 'orders'>('main');
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+    const [userEmail, setUserEmail] = useState<string>('');
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        checkAuth();
+    }, []);
+
+    const checkAuth = async () => {
+        try {
+            const isValid = await authService.validateToken();
+            setIsAuthenticated(isValid);
+
+            const email = localStorage.getItem('user_email') || '';
+            setUserEmail(email);
+
+            if (!isValid) {
+                navigate('/auth');
+            }
+        } catch {
+            setIsAuthenticated(false);
+            navigate('/auth');
+        }
+    };
+
+    const handleLogout = async () => {
+        try {
+            await authService.logout();
+            navigate('/auth');
+        } catch (error) {
+            console.error('Logout error:', error);
+        }
+    };
+
+    if (isAuthenticated === null) {
+        return <div className="admin-panel">Проверка авторизации...</div>;
+    }
+
+    if (!isAuthenticated) {
+        return <Navigate to="/auth" replace />;
+    }
 
     return (
         <div className="admin-panel">

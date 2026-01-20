@@ -22,7 +22,7 @@ import AdminMainNews from './admin_panel/admin_panel_news/admin_panel_news'
 import AdminMainOrder from './admin_panel/admin_panel_order/admin_panel_order'
 import AdminMainShop from './admin_panel/admin_panel_shop_item/admin_panel_shop_item'
 import AdminMainUser from './admin_panel/admin_panel_user/admin_panel_user'
-
+import AuthGuard from './components/AuthGuard'
 
 function App() {
   return (
@@ -41,13 +41,42 @@ function App() {
       <Route path="/PCslaptopsperiphearls" element={<Layout><PCsLaptopsPeripherals /></Layout>} />
       <Route path="/SmartphonesandPhotographicEquiment" element={<Layout><SmartphonesandPhotographicEquiment /></Layout>} />
       <Route path="/TVconsolesandAudio" element={<Layout><TVConsolesandAudio /></Layout>} />
-      <Route path="/adminpanelfull" element={<Layout><AdminMainFull /></Layout>} />
-      <Route path="/adminpanel" element={<Layout><AdminMain /></Layout>} />
-      <Route path="/adminpanelcatalog" element={<Layout><AdminMainCatalogItem /></Layout>} />
-      <Route path="/adminpanelnews" element={<Layout><AdminMainNews /></Layout>} />
-      <Route path="/adminpanelorder" element={<Layout><AdminMainOrder /></Layout>} />
-      <Route path="/adminpanelshop" element={<Layout><AdminMainShop /></Layout>} />
-      <Route path="/adminpaneluser" element={<Layout><AdminMainUser /></Layout>} />
+
+      <Route path="/adminpanelfull" element={
+        <AuthGuard requiredRole="MANAGER">
+          <Layout><AdminMainFull /></Layout>
+        </AuthGuard>
+      } />
+      <Route path="/adminpanel" element={
+        <AuthGuard requiredRole="MANAGER">
+          <Layout><AdminMain /></Layout>
+        </AuthGuard>
+      } />
+      <Route path="/adminpanelcatalog" element={
+        <AuthGuard requiredRole="MANAGER">
+          <Layout><AdminMainCatalogItem /></Layout>
+        </AuthGuard>
+      } />
+      <Route path="/adminpanelnews" element={
+        <AuthGuard requiredRole="MANAGER">
+          <Layout><AdminMainNews /></Layout>
+        </AuthGuard>
+      } />
+      <Route path="/adminpanelorder" element={
+        <AuthGuard requiredRole="MANAGER">
+          <Layout><AdminMainOrder /></Layout>
+        </AuthGuard>
+      } />
+      <Route path="/adminpanelshop" element={
+        <AuthGuard requiredRole="MANAGER">
+          <Layout><AdminMainShop /></Layout>
+        </AuthGuard>
+      } />
+      <Route path="/adminpaneluser" element={
+        <AuthGuard requiredRole="ADMIN">
+          <Layout><AdminMainUser /></Layout>
+        </AuthGuard>
+      } />
     </Routes>
   )
 }

@@ -1,32 +1,77 @@
-import React, { useState } from 'react';
-import type { User } from '../../components/panel_index';
+import React, { useState, useEffect } from 'react';
+import { userService } from '../../service/apiServices';
 import './admin_panel_user.sass';
 
-const AdminUsers: React.FC = () => {
-    const [users, setUsers] = useState<User[]>([
-        { id: 1, username: 'admin', email: 'admin@technest.ru', role: 'admin', createdAt: '2024-01-15' },
-        { id: 2, username: 'manager', email: 'manager@technest.ru', role: 'manager', createdAt: '2024-02-10' },
-        { id: 3, username: 'ivanov', email: 'ivanov@mail.ru', role: 'user', createdAt: '2024-03-05' },
-        { id: 4, username: 'petrov', email: 'petrov@gmail.com', role: 'user', createdAt: '2024-03-10' },
-        { id: 5, username: 'sidorova', email: 'sidorova@yandex.ru', role: 'user', createdAt: '2024-03-12' },
-        { id: 6, username: 'smirnov', email: 'smirnov@technest.ru', role: 'manager', createdAt: '2024-03-15' },
-        { id: 7, username: 'kuznetsov', email: 'kuznetsov@gmail.com', role: 'user', createdAt: '2024-03-18' },
-        { id: 8, username: 'popova', email: 'popova@mail.ru', role: 'user', createdAt: '2024-03-20' },
-    ]);
+interface User {
+    id: string;
+    username: string;
+    email: string;
+    role: string;
+    createdAt: string;
+    firstName?: string;
+    lastName?: string;
+    status?: string;
+}
 
+const AdminUsers: React.FC = () => {
+    const [users, setUsers] = useState<User[]>([]);
     const [showModal, setShowModal] = useState(false);
     const [editingUser, setEditingUser] = useState<User | null>(null);
     const [formData, setFormData] = useState({
         username: '',
         email: '',
-        role: 'user' as User['role'],
+        role: 'user' as string,
+        firstName: '',
+        lastName: '',
+        password: '',
     });
     const [searchTerm, setSearchTerm] = useState('');
     const [roleFilter, setRoleFilter] = useState<string>('all');
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        loadUsers();
+    }, []);
+
+    const loadUsers = async () => {
+        try {
+            setLoading(true);
+            const data = await userService.getAllUsers(0, 50);
+
+            const formattedUsers: User[] = data.map((user: any) => ({
+                id: user.id,
+                username: user.firstName || user.email,
+                email: user.email,
+                role: user.roles?.[0] || 'user',
+                createdAt: user.RegistrationDate || user.created_at,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                status: user.status || 'active'
+            }));
+
+            setUsers(formattedUsers);
+        } catch (error) {
+            console.error('Ошибка загрузки пользователей:', error);
+            setUsers([
+                { id: '1', username: 'admin', email: 'admin@technest.ru', role: 'admin', createdAt: '2024-01-15' },
+                { id: '2', username: 'manager', email: 'manager@technest.ru', role: 'manager', createdAt: '2024-02-10' },
+                { id: '3', username: 'ivanov', email: 'ivanov@mail.ru', role: 'user', createdAt: '2024-03-05' },
+            ]);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const handleAddUser = () => {
         setEditingUser(null);
-        setFormData({ username: '', email: '', role: 'user' });
+        setFormData({
+            username: '',
+            email: '',
+            role: 'user',
+            firstName: '',
+            lastName: '',
+            password: '',
+        });
         setShowModal(true);
     };
 
@@ -36,17 +81,26 @@ const AdminUsers: React.FC = () => {
             username: user.username,
             email: user.email,
             role: user.role,
+            firstName: user.firstName || '',
+            lastName: user.lastName || '',
+            password: '',
         });
         setShowModal(true);
     };
 
-    const handleDeleteUser = (id: number) => {
-        if (window.confirm('Вы уверены, что хотите удалить этого пользователя? Это действие нельзя отменить.')) {
-            setUsers(users.filter(user => user.id !== id));
+    const handleDeleteUser = async (id: string) => {
+        if (window.confirm('Вы уверены, что хотите удалить этого пользователя?')) {
+            try {
+                await userService.deleteUser(id);
+                await loadUsers();
+                alert('Пользователь успешно удален');
+            } catch (error: any) {
+                alert(`Ошибка удаления: ${error.message}`);
+            }
         }
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         if (!formData.username.trim() || !formData.email.trim()) {
@@ -54,22 +108,29 @@ const AdminUsers: React.FC = () => {
             return;
         }
 
-        if (editingUser) {
-            setUsers(users.map(user =>
-                user.id === editingUser.id
-                    ? { ...user, ...formData }
-                    : user
-            ));
-        } else {
-            const newUser: User = {
-                id: Math.max(...users.map(u => u.id)) + 1,
-                ...formData,
-                createdAt: new Date().toISOString().split('T')[0],
+        try {
+            const userData = {
+                firstName: formData.firstName || formData.username,
+                lastName: formData.lastName || '',
+                Email: formData.email,
+                Password: formData.password || 'defaultPassword123',
+                Roles: [formData.role],
+                status: 'active'
             };
-            setUsers([...users, newUser]);
-        }
 
-        setShowModal(false);
+            if (editingUser) {
+                await userService.updateUser(editingUser.id, userData);
+            } else {
+                await userService.createUser(userData);
+            }
+
+            await loadUsers();
+            setShowModal(false);
+            alert(editingUser ? 'Пользователь успешно обновлен' : 'Пользователь успешно создан');
+
+        } catch (err: any) {
+            alert(`Ошибка сохранения: ${err.message}`);
+        }
     };
 
     const filteredUsers = users.filter(user => {
@@ -79,7 +140,7 @@ const AdminUsers: React.FC = () => {
         return matchesSearch && matchesRole;
     });
 
-    const getRoleName = (role: User['role']) => {
+    const getRoleName = (role: string) => {
         switch (role) {
             case 'admin': return 'Администратор';
             case 'manager': return 'Менеджер';
@@ -88,6 +149,13 @@ const AdminUsers: React.FC = () => {
         }
     };
 
+    if (loading) {
+        return (
+            <div className="users-container">
+                <div className="loading">Загрузка пользователей...</div>
+            </div>
+        );
+    }
     return (
         <div className="users-container">
             <div className="users-header">

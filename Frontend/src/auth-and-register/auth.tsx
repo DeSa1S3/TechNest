@@ -1,31 +1,60 @@
-import { useState } from 'react'
-import './auth.sass'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { authService } from '../service/apiServices';
+import './auth.sass';
 
-function AuthAndRegister() {
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [rememberMe, setRememberMe] = useState(false)
+const AuthAndRegister: React.FC = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [rememberMe, setRememberMe] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const navigate = useNavigate();
 
-    const handleLogin = () => {
-        console.log('Вход с email:', email, 'и паролем:', password)
-        console.log('Запомнить меня:', rememberMe)
-    }
+    const handleLogin = async () => {
+        if (!email || !password) {
+            setError('Пожалуйста, заполните все поля');
+            return;
+        }
+
+        setIsLoading(true);
+        setError(null);
+
+        try {
+            const response = await authService.login(email, password);
+
+            if (response.accessToken) {
+                localStorage.setItem('user_email', email);
+
+                navigate('/admin');
+            } else {
+                setError('Неверный email или пароль');
+            }
+        } catch (err: any) {
+            setError(err.message || 'Ошибка при входе');
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     const handleRegister = () => {
-        console.log('Переход к регистрации')
-        window.location.href = '/register'
-    }
+        navigate('/register');
+    };
 
     const handleForgotPassword = () => {
-        console.log('Восстановление пароля для:', email)
-        window.location.href = '/forgot-password'
-    }
+        navigate('/forgot-password');
+    };
 
     return (
         <div className="auth-container">
             <div className="auth-card">
                 <h1 className="auth-title">Войти</h1>
+
+                {error && (
+                    <div className="auth-error">
+                        {error}
+                    </div>
+                )}
 
                 <div className="auth-form">
                     <div className="input-group">
@@ -37,6 +66,7 @@ function AuthAndRegister() {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             className="auth-input"
+                            disabled={isLoading}
                         />
                     </div>
 
@@ -45,7 +75,7 @@ function AuthAndRegister() {
                             <label htmlFor="password">Пароль</label>
                             <span
                                 className="forgot-password-link"
-                                onClick={handleForgotPassword}
+                                onClick={!isLoading ? handleForgotPassword : undefined}
                             >
                                 Забыли пароль?
                             </span>
@@ -57,6 +87,7 @@ function AuthAndRegister() {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             className="auth-input"
+                            disabled={isLoading}
                         />
                     </div>
 
@@ -67,6 +98,7 @@ function AuthAndRegister() {
                                 checked={rememberMe}
                                 onChange={(e) => setRememberMe(e.target.checked)}
                                 className="checkbox-input"
+                                disabled={isLoading}
                             />
                             <span className="checkbox-custom"></span>
                             <span className="checkbox-text">Запомнить меня</span>
@@ -76,30 +108,30 @@ function AuthAndRegister() {
                     <button
                         className="login-btn"
                         onClick={handleLogin}
+                        disabled={isLoading}
                     >
-                        Войти
+                        {isLoading ? 'Загрузка...' : 'Войти'}
                     </button>
+
                     <div className="register-section">
                         <p className="register-text">
                             Нет аккаунта?
-                            <Link to="/auth">
-                                <span
-                                    className="register-link"
-                                    onClick={handleRegister}
-                                >
-                                    Зарегистрироваться
-                                </span>
-                            </Link>
-
+                            <span
+                                className="register-link"
+                                onClick={!isLoading ? handleRegister : undefined}
+                            >
+                                Зарегистрироваться
+                            </span>
                         </p>
                     </div>
+
                     <p className="consent-text">
-                        Нажимая кнопку «Войти», вы даёте согласие на обработку своих персональных данных в соответствии с <a href="#" className="policy-link">Политикой в отношении обработки персональных данных</a>.
+                        Нажимая кнопку «Войти», вы даёте согласие на обработку своих персональных данных в соответствии с <a href="/privacy" className="policy-link">Политикой в отношении обработки персональных данных</a>.
                     </p>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default AuthAndRegister
+export default AuthAndRegister;
